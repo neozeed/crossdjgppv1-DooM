@@ -37,8 +37,9 @@ static const char
 #include "r_state.h"
 /* Data. */
 #include "sounds.h"
-
+#ifdef VALUES_H
 #include <values.h>
+#endif
 
 
 /* */

@@ -34,7 +34,9 @@ static const char
 #endif
 #include "m_bbox.h"
 
+#ifdef VALUES_H
 #include <values.h>
+#endif
 
 
 void M_ClearBox (fixed_t *box)
