@@ -1,0 +1,21 @@
+In file included from d_ticcmd.h:27, from i_system.h:27, from i_sound.c:53:
+doomtype.h:46: warning: `MAXSHORT' redefined
+/dos/djgpp/src/1.06/include/values.h:49: warning: this is the location of the previous definition
+doomtype.h:49: warning: `MAXINT' redefined
+/dos/djgpp/src/1.06/include/values.h:50: warning: this is the location of the previous definition
+doomtype.h:55: warning: `MININT' redefined
+/dos/djgpp/src/1.06/include/values.h:46: warning: this is the location of the previous definition
+In file included from m_bbox.h:27, from p_setup.c:35:
+doomtype.h:46: warning: `MAXSHORT' redefined
+/dos/djgpp/src/1.06/include/values.h:49: warning: this is the location of the previous definition
+doomtype.h:49: warning: `MAXINT' redefined
+/dos/djgpp/src/1.06/include/values.h:50: warning: this is the location of the previous definition
+doomtype.h:55: warning: `MININT' redefined
+/dos/djgpp/src/1.06/include/values.h:46: warning: this is the location of the previous definition
+In file included from doomdata.h:29, from p_mobj.h:36, from d_player.h:37, from d_net.h:27, from r_main.c:37:
+doomtype.h:46: warning: `MAXSHORT' redefined
+/dos/djgpp/src/1.06/include/values.h:49: warning: this is the location of the previous definition
+doomtype.h:49: warning: `MAXINT' redefined
+/dos/djgpp/src/1.06/include/values.h:50: warning: this is the location of the previous definition
+doomtype.h:55: warning: `MININT' redefined
+/dos/djgpp/src/1.06/include/values.h:46: warning: this is the location of the previous definition

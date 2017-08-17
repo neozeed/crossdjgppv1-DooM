@@ -1,0 +1,7 @@
+We the staff of ZDaemon would like to acknowledge Id Software, Inc. and thank them
+for providing us with such an outstandingly enjoyable game as DooM. 
+© 2002 Id Software, Inc. All Rights Reserved.
+Id Software's website: http://www.idsoftware.com
+Doom1.wad is part of the DooM Shareware package, which can be found at the following locations:
+http://www.doom2.net/doom2/files/doom19s.zip
+ftp://3darchives.in-span.net/pub/idgames/idstuff/doom/doom19s.zip

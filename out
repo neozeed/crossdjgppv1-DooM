@@ -1,0 +1,16 @@
+
+D:\dos\xdj\test\doom>del /F dos\i_*.o 
+
+D:\dos\xdj\test\doom>set tmpdir=/tmp 
+
+D:\dos\xdj\test\doom>set C_INCLUDE_PATH=/dos/xdj/include 
+
+D:\dos\xdj\test\doom>set LIBRARY_PATH=/dos/xdj/lib 
+
+D:\dos\xdj\test\doom>make -f makefile 
+gcc   -O1 -I. -c i_sound.c -o dos/i_sound.o
+gcc   -O1 -I. -c i_net.c -o dos/i_net.o
+gcc   -O1 -I. -c go32_dpmi/i_system.c -o dos/i_system.o
+gcc   -O1 -I. -c go32_dpmi/i_video.c -o dos/i_video.o
+gcc   -O1 -I. -c i_main.c -o dos/i_main.o
+gcc   -O1 -I.  dos/doomdef.o dos/doomstat.o dos/dstrings.o dos/i_sound.o dos/i_net.o dos/tables.o dos/f_finale.o dos/f_wipe.o dos/d_main.o dos/d_net.o dos/d_items.o dos/g_game.o dos/m_menu.o dos/m_misc.o dos/m_argv.o dos/m_bbox.o dos/m_fixed.o dos/m_swap.o dos/m_cheat.o dos/m_random.o dos/am_map.o dos/p_ceilng.o dos/p_doors.o dos/p_enemy.o dos/p_floor.o dos/p_inter.o dos/p_lights.o dos/p_map.o dos/p_maputl.o dos/p_plats.o dos/p_pspr.o dos/p_setup.o dos/p_sight.o dos/p_spec.o dos/p_switch.o dos/p_mobj.o dos/p_telept.o dos/p_tick.o dos/p_saveg.o dos/p_user.o dos/r_bsp.o dos/r_data.o dos/r_draw.o dos/r_main.o dos/r_plane.o dos/r_segs.o dos/r_sky.o dos/r_things.o dos/w_wad.o dos/wi_stuff.o dos/v_video.o dos/st_lib.o dos/st_stuff.o dos/hu_stuff.o dos/hu_lib.o dos/s_sound.o dos/z_zone.o dos/info.o dos/sounds.o  dos/i_system.o dos/i_video.o dos/dpmi.o dos/i_main.o -o dos/doom -lgcc -lgr -lpc
