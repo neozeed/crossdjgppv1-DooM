@@ -1591,7 +1591,8 @@ void G_DoPlayDemo (void)
 	{
 		fprintf( stderr, "Demo is from a different game version!\n");
 		gameaction = ga_nothing;
-		return;
+		/*but we are going to run it anyways...*/
+		/*return;*/
 	}
 
 	skill = *demo_p++;
