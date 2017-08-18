@@ -31,15 +31,16 @@ static const char
 
 #include <math.h>
 
+/*
 #include <sys/time.h>
 #include <sys/types.h>
-
+*/
 #ifndef LINUX
 /*#include <sys/filio.h> */
 #endif
 
 #include <fcntl.h>
-#include <unistd.h>
+/*#include <unistd.h>*/
 
 /* Linux voxware output. */
 /*#include <linux/soundcard.h> */

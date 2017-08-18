@@ -28,6 +28,9 @@
 #define __Z_ZONE__
 
 #include <stdio.h>
+#ifdef __WATCOMC__
+#include <malloc.h>
+#endif
 
 /* */
 /* ZONE MEMORY */

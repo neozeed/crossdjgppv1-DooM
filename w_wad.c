@@ -29,7 +29,10 @@ static const char
 #include <ctype.h>
 #include <sys/types.h>
 #include <string.h>
+#ifdef __WATCOMC__
+#else
 #include <unistd.h>
+#endif
 #include <fcntl.h>
 #include <sys/stat.h>
 #ifdef ALLOCA

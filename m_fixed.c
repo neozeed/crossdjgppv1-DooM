@@ -39,7 +39,11 @@ static const char
 #ifdef VALUES_H
 #include <values.h>
 #endif
-
+#ifdef __WATCOMC__
+#define long_long long
+#else
+#define long_long long long
+#endif
 
 /* Fixme. __USE_C_FIXED__ or something. */
 
@@ -48,7 +52,7 @@ FixedMul
         ( fixed_t a,
         fixed_t b )
 {
-	return ((long long) a * (long long) b) >> FRACBITS;
+	return ((long_long) a * (long_long) b) >> FRACBITS;
 }
 
 
@@ -75,8 +79,8 @@ FixedDiv2
         fixed_t b )
 {
 #if 1
-	long long c;
-	c = ((long long)a<<16) / ((long long)b);
+	long_long c;
+	c = ((long_long)a<<16) / ((long_long)b);
 	return (fixed_t) c;
 #else
 	double c;

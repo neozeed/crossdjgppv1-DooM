@@ -1,6 +1,6 @@
 /* https://chromium.googlesource.com/native_client/nacl-newlib/+/master/newlib/libc/string/strncasecmp.c */
 
-#include <strings.h>
+#include <string.h>
 #include <ctype.h>
 int strncasecmp (const char *s1 ,const char *s2 ,size_t n)
 {

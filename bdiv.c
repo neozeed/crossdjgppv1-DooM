@@ -1,3 +1,6 @@
+#ifdef ALLOCA
+#include <alloca.h>
+#endif
 #define BITS_PER_UNIT 8
 #define CHAR_TYPE_SIZE BITS_PER_UNIT
 #define SItype long int

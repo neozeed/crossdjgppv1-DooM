@@ -31,7 +31,7 @@ static const char
 #include <sys/types.h>
 #include <fcntl.h>
 #include <stdlib.h>
-#include <unistd.h>
+/*#include <unistd.h>*/
 
 #include <ctype.h>
 #include <sys/stat.h>

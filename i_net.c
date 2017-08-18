@@ -29,7 +29,7 @@ static const char
 #include <stdio.h>
 
 #include <errno.h>
-#include <unistd.h>
+/*#include <unistd.h>*/
 
 #include "i_system.h"
 #include "d_event.h"
