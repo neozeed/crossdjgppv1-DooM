@@ -40,7 +40,7 @@ static const char
 #include <values.h>
 #endif
 #ifdef __WATCOMC__
-#define long_long long
+#define long_long long long
 #else
 #define long_long long long
 #endif

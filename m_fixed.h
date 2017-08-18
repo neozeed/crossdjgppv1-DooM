@@ -43,6 +43,11 @@ fixed_t FixedDiv        (fixed_t a, fixed_t b);
 fixed_t FixedDiv2       (fixed_t a, fixed_t b);
 
 
+#ifdef __WATCOMC__
+#endif
+
+
+
 
 #endif
 /*----------------------------------------------------------------------------- */
