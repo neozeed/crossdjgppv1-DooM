@@ -29,6 +29,7 @@ static const char
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <sys/time.h>
 
 #include <stdarg.h>
 /*
@@ -91,7 +92,16 @@ static int newtics;
 /* */
 int  I_GetTime (void)
 {
-   return newtics++;
+    struct timeval	tp;
+    struct timezone	tzp;
+    int			newtics;
+    static int		basetime=0;
+  
+    gettimeofday(&tp, &tzp);
+    if (!basetime)
+	basetime = tp.tv_sec;
+    newtics = (tp.tv_sec-basetime)*TICRATE + tp.tv_usec*TICRATE/1000000;
+    return newtics;
 }
 
 
@@ -152,7 +162,7 @@ void I_Error (char *error, ...)
 
 	/* Message first. */
 	va_start (argptr,error);
-	fprintf (stderr, "Error: ");
+	fprintf (stderr, "\n\nError: ");
 	vfprintf (stderr,error,argptr);
 	fprintf (stderr, "\n");
 	va_end (argptr);
