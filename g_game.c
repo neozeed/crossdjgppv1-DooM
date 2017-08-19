@@ -1586,13 +1586,19 @@ void G_DoPlayDemo (void)
 	int i, episode, map;
 
 	gameaction = ga_nothing;
+	/*Demos from v1.1 just crash so we are going to try to skip them entirely.*/
+	/*DooM v1.2 and beyond have the nightmare setting*/
+	if(W_CheckNumForName("M_NMARE")<0)
+		return;
 	demobuffer = demo_p = W_CacheLumpName (defdemoname, PU_STATIC);
 	if ( *demo_p++ != VERSION)
 	{
-		fprintf( stderr, "Demo is from a different game version!\n");
+		if(*demo_p<=2) {
 		gameaction = ga_nothing;
+		return;
+		}
+		fprintf( stderr, "Demo is from a different game version %d instead of %d!\n",*demo_p,VERSION);
 		/*but we are going to run it anyways...*/
-		/*return;*/
 	}
 
 	skill = *demo_p++;
