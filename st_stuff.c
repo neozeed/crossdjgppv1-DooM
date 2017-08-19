@@ -502,6 +502,8 @@ void ST_refreshBackground(void)
 
 	if (st_statusbaron)
 	{
+
+	if(W_CheckNumForName("STBAR")>0)
 		V_DrawPatch(ST_X, 0, BG, sbar);
 
 		if (netgame)
@@ -1172,7 +1174,10 @@ void ST_loadGraphics(void)
 	faceback = (patch_t *) W_CacheLumpName(namebuf, PU_STATIC);
 
 	/* status bar background bits */
-	sbar = (patch_t *) W_CacheLumpName("STBAR", PU_STATIC);
+
+	sbar = -1;
+	if(W_CheckNumForName("STBAR")>0)
+		sbar = (patch_t *) W_CacheLumpName("STBAR", PU_STATIC);
 
 	/* face states */
 	facenum = 0;
@@ -1230,7 +1235,9 @@ void ST_unloadGraphics(void)
 	for (i=0; i<NUMCARDS; i++)
 		Z_ChangeTag(keys[i], PU_CACHE);
 
-	Z_ChangeTag(sbar, PU_CACHE);
+
+	if(sbar>0)
+		Z_ChangeTag(sbar, PU_CACHE);
 	Z_ChangeTag(faceback, PU_CACHE);
 
 	for (i=0; i<ST_NUMFACES; i++)

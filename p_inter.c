@@ -404,7 +404,8 @@ P_TouchSpecialThing
 			player->health = 200;
 		player->mo->health = player->health;
 		player->message = GOTSUPER;
-		sound = sfx_getpow;
+		if(W_CheckNumForName("DSGETPOW")>0)
+			sound = sfx_getpow;
 		break;
 
 	case SPR_MEGA:
@@ -414,7 +415,8 @@ P_TouchSpecialThing
 		player->mo->health = player->health;
 		P_GiveArmor (player,2);
 		player->message = GOTMSPHERE;
-		sound = sfx_getpow;
+		if(W_CheckNumForName("DSGETPOW")>0)
+			sound = sfx_getpow;
 		break;
 
 	/* cards */
@@ -490,7 +492,8 @@ P_TouchSpecialThing
 		if (!P_GivePower (player, pw_invulnerability))
 			return;
 		player->message = GOTINVUL;
-		sound = sfx_getpow;
+		if(W_CheckNumForName("DSGETPOW")>0)
+			sound = sfx_getpow;
 		break;
 
 	case SPR_PSTR:
@@ -499,35 +502,40 @@ P_TouchSpecialThing
 		player->message = GOTBERSERK;
 		if (player->readyweapon != wp_fist)
 			player->pendingweapon = wp_fist;
-		sound = sfx_getpow;
+		if(W_CheckNumForName("DSGETPOW")>0)
+			sound = sfx_getpow;
 		break;
 
 	case SPR_PINS:
 		if (!P_GivePower (player, pw_invisibility))
 			return;
 		player->message = GOTINVIS;
-		sound = sfx_getpow;
+		if(W_CheckNumForName("DSGETPOW")>0)
+			sound = sfx_getpow;
 		break;
 
 	case SPR_SUIT:
 		if (!P_GivePower (player, pw_ironfeet))
 			return;
 		player->message = GOTSUIT;
-		sound = sfx_getpow;
+		if(W_CheckNumForName("DSGETPOW")>0)
+			sound = sfx_getpow;
 		break;
 
 	case SPR_PMAP:
 		if (!P_GivePower (player, pw_allmap))
 			return;
 		player->message = GOTMAP;
-		sound = sfx_getpow;
+		if(W_CheckNumForName("DSGETPOW")>0)
+			sound = sfx_getpow;
 		break;
 
 	case SPR_PVIS:
 		if (!P_GivePower (player, pw_infrared))
 			return;
 		player->message = GOTVISOR;
-		sound = sfx_getpow;
+		if(W_CheckNumForName("DSGETPOW")>0)
+			sound = sfx_getpow;
 		break;
 
 	/* ammo */
