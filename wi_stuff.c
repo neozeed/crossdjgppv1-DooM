@@ -658,7 +658,7 @@ WI_drawNum
 	}
 
 	/* draw a minus sign if necessary */
-	if ( (neg) && (wiminus>0) )
+	if ( (neg) && (W_CheckNumForName("WIMINUS")>0) )
 		V_DrawPatch(x-=8, y, FB, wiminus);
 
 	return x;
@@ -1539,7 +1539,6 @@ void WI_loadData(void)
 {
 	int i;
 	int j;
-	int rc;
 	char name[9];
 	anim_t*     a;
 
@@ -1626,8 +1625,7 @@ void WI_loadData(void)
 
 	/* More hacks on minus sign. */
 	wiminus = -1;
-	rc=W_CheckNumForName("WIMINUS");
-	if(rc>0)
+	if(W_CheckNumForName("WIMINUS")>0)
 		wiminus = W_CacheLumpName("WIMINUS", PU_STATIC);
 
 	for (i=0; i<10; i++)
@@ -1714,7 +1712,7 @@ void WI_unloadData(void)
 	int i;
 	int j;
 
-	if(wiminus>0)
+	if(W_CheckNumForName("WIMINUS")>0)
 		Z_ChangeTag(wiminus, PU_CACHE);
 
 	for (i=0; i<10; i++)
