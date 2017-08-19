@@ -322,11 +322,29 @@ menuitem_t NewGameMenu[]=
 	{1,"M_NMARE",       M_ChooseSkill, 'n'}
 };
 
+menuitem_t OldNewGameMenu[]=
+{
+	{1,"M_JKILL",       M_ChooseSkill, 'i'},
+	{1,"M_ROUGH",       M_ChooseSkill, 'h'},
+	{1,"M_HURT",        M_ChooseSkill, 'h'},
+	{1,"M_ULTRA",       M_ChooseSkill, 'u'}
+};
+
 menu_t NewDef =
 {
 	newg_end,       /* # of menu items */
 	&EpiDef,        /* previous menu */
 	NewGameMenu,    /* menuitem_t -> */
+	M_DrawNewGame,  /* drawing routine -> */
+	48,63,          /* x,y */
+	hurtme          /* lastOn */
+};
+
+menu_t OldNewDef =
+{
+	newg_end,       /* # of menu items */
+	&EpiDef,        /* previous menu */
+	OldNewGameMenu,    /* menuitem_t -> */
 	M_DrawNewGame,  /* drawing routine -> */
 	48,63,          /* x,y */
 	hurtme          /* lastOn */
@@ -879,8 +897,12 @@ void M_NewGame(int choice)
 		return;
 	}
 
-	if ( gamemode == commercial )
-		M_SetupNextMenu(&NewDef);
+	if ( gamemode == commercial ){
+		if(W_CheckNumForName("M_NMARE")>0)
+			M_SetupNextMenu(&NewDef);
+		else
+			M_SetupNextMenu(&OldNewDef);
+		}
 	else
 		M_SetupNextMenu(&EpiDef);
 }
@@ -937,7 +959,10 @@ void M_Episode(int choice)
 	}
 
 	epi = choice;
-	M_SetupNextMenu(&NewDef);
+	if(W_CheckNumForName("M_NMARE")>0)
+		M_SetupNextMenu(&NewDef);
+	else
+		M_SetupNextMenu(&OldNewDef);
 }
 
 
@@ -1871,7 +1896,10 @@ void M_Init (void)
 		MainMenu[readthis] = MainMenu[quitdoom];
 		MainDef.numitems--;
 		MainDef.y += 8;
-		NewDef.prevMenu = &MainDef;
+		if(W_CheckNumForName("M_NMARE")>0)
+			NewDef.prevMenu = &MainDef;
+		else
+			OldNewDef.prevMenu = &MainDef;
 		ReadDef1.routine = M_DrawReadThis1;
 		ReadDef1.x = 330;
 		ReadDef1.y = 165;
