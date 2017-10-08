@@ -22,10 +22,10 @@
 /*	DOOM graphics stuff for X11, UNIX. */
 /* */
 /*----------------------------------------------------------------------------- */
-
+/*
 static const char
         rcsid[] = "$Id: i_x.c,v 1.6 1997/02/03 22:45:10 b1 Exp $";
-
+*/
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdarg.h>
