@@ -20,9 +20,10 @@
 /* DESCRIPTION: */
 /* */
 /*----------------------------------------------------------------------------- */
-
+/*
 static const char
         rcsid[] = "$Id:$";
+*/
 
 /* We are referring to sprite numbers. */
 #include "info.h"

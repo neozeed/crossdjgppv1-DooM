@@ -21,10 +21,10 @@
 /*	LineOfSight/Visibility checks, uses REJECT Lookup Table. */
 /* */
 /*----------------------------------------------------------------------------- */
-
+/*
 static const char
         rcsid[] = "$Id: p_sight.c,v 1.3 1997/01/28 22:08:28 b1 Exp $";
-
+*/
 
 #include "doomdef.h"
 
