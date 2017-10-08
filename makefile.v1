@@ -17,6 +17,7 @@ LIBS= -lgcc -lgr -lpc
 # subdirectory for objects
 O=obj
 
+#		$(O)/m_fixed.o		\
 # not too sophisticated dependency
 OBJS=				\
 		$(O)/doomdef.o		\
@@ -35,7 +36,6 @@ OBJS=				\
 		$(O)/m_misc.o			\
 		$(O)/m_argv.o  		\
 		$(O)/m_bbox.o			\
-		$(O)/m_fixed.o		\
 		$(O)/m_swap.o			\
 		$(O)/m_cheat.o		\
 		$(O)/m_random.o		\
@@ -78,7 +78,8 @@ OBJS=				\
 		$(O)/z_zone.o			\
 		$(O)/info.o				\
 		$(O)/sounds.o	\
-		$(O)/div.o
+		$(O)/div.o	\
+		$(O)/m_fixed_i386.o
 #		$(O)/strncasecmp.o	\
 #		$(O)/strcasecmp.o	
 #		$(O)/muldi3.o	\
@@ -233,9 +234,12 @@ $(O)/muldi3.o:
 	$(CC) $(CFLAGS) -c muldi3.c -o $@
 $(O)/ashrdi3.o:
 	$(CC) $(CFLAGS) -c ashrdi3.c -o $@
+#this is needed for GCC 1.27
 $(O)/div.o:
 	$(CC) $(CFLAGS) -c div.s -o $@
-
+#
+$(O)/m_fixed_i386.o:
+	$(CC) $(CFLAGS) -c m_fixed_i386.s -o $@
 #Go32
 #$(O)/i_video.o:
 #	$(CC) $(CFLAGS) -c go32/i_video.c -o $@
