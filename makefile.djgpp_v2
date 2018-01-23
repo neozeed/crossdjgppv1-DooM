@@ -11,9 +11,9 @@ CC=  gcc  # gcc or g++
 #CFLAGS= -I. -O -Idjgpp_v2 -Dalleg_keyboard_unused -I../allegro.312
 #CFLAGS= -I. -O2 -msoft-float -Idjgpp_v2 -DOTHERKEYBOARD -I../allegro.312
 #CFLAGS = -m486 -O3 -ffast-math -fomit-frame-pointer -I. -Idjgpp_v2 -DOTHERKEYBOARD -I../allegro.312
-CFLAGS = -m486 -msoft-float -ffast-math -O2 -fforce-addr -fomit-frame-pointer -I. -Idjgpp_v2 -DOTHERKEYBOARD -I../allegro.312
+CFLAGS = -m486 -msoft-float -ffast-math -O2 -fforce-addr -fomit-frame-pointer -I. -Idjgpp_v2 -DOTHERKEYBOARD -Iallegro
 #CFLAGS = -O0 -g -I. -Idjgpp_v2 -DOTHERKEYBOARD -I../allegro.312
-LDFLAGS = -L../allegro.312/lib/djgpp
+LDFLAGS = -Lallegro
 # subdirectory for objects
 LIBS = -lalleg -lm
 O=obj
