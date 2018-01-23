@@ -8,7 +8,7 @@ CC=  gcc_v127  # gcc or g++
 
 #CFLAGS=-g -Wall -DNORMALUNIX -DLINUX # -DUSEASM
 #CFLAGS=-g -m80387 -DALLOCA
-CFLAGS= -I. 
+CFLAGS= -I.
 #LDFLAGS=-L/usr/X11R6/lib
 #LIBS=-lXext -lX11 -lnsl -lm
 LDFLAGS=

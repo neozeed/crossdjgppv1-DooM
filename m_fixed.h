@@ -38,10 +38,11 @@
 
 typedef int fixed_t;
 
-//fixed_t FixedMul        (fixed_t a, fixed_t b);
-//fixed_t FixedDiv        (fixed_t a, fixed_t b);
-//fixed_t FixedDiv2       (fixed_t a, fixed_t b);
-
+#ifndef USEASM
+fixed_t FixedMul        (fixed_t a, fixed_t b);
+fixed_t FixedDiv        (fixed_t a, fixed_t b);
+fixed_t FixedDiv2       (fixed_t a, fixed_t b);
+#endif
 
 #ifdef __WATCOMC__	/* FS: Heretic Merge */
 #pragma aux FixedMul =	\
@@ -64,9 +65,11 @@ typedef int fixed_t;
 
 
 #ifdef __DJGPP
-// multiple definition of `FixedMul'
-//inline __inline__ whatever. they all duplicate
-
+/* multiple definition of `FixedMul'
+I think later versions treat __inline__ vs inline 
+not to mention static or const
+inline __inline__ whatever. they all duplicate
+*/
 __inline__ static const int D_abs(x)
 {
   int _t = (x),_s;
