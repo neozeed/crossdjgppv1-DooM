@@ -1,5 +1,4 @@
 option map
-#option stack=65536
 option stack=256532
 option stub=wstub
 debug all
@@ -72,7 +71,7 @@ file obj\I_SYSTEM.OBJ
 file obj\I_VIDEO.OBJ
 file obj\i_sound.obj
 file obj\i_net.obj
-file obj\strcas.obj
-file obj\strncas.obj
+file obj\strcasecmp.obj
+file obj\strncasecmp.obj
 file obj\i_main.obj
 file obj\xmalloc.obj

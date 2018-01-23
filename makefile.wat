@@ -6,9 +6,9 @@
 #
 CC=  wcc386  # gcc or g++
 
-#CFLAGS=-g -Wall -DNORMALUNIX -DLINUX # -DUSEASM
-#CFLAGS=-g -m80387 -DALLOCA
-CFLAGS= #-I. -O
+#5r works
+#5s cannot
+CFLAGS=/omaxet /zp1 /5r /ei /j /zq
 #LDFLAGS=-L/usr/X11R6/lib
 #LIBS=-lXext -lX11 -lnsl -lm
 LDFLAGS=
@@ -77,8 +77,8 @@ OBJS=		&
 	$(O)\z_zone.obj &
 	$(O)\info.obj &
 	$(O)\sounds.obj &
-	$(O)\strncas.obj &
-	$(O)\strcas.obj	&
+	$(O)\strncasecmp.obj &
+	$(O)\strcasecmp.obj	&
 	$(O)\m_fixed.obj	
 
 SYSOBJ	=	$(O)\xmalloc.obj &
@@ -135,7 +135,7 @@ $(O)\m_argv.obj:
 $(O)\m_bbox.obj:
 	$(CC) $(CFLAGS) m_bbox.c /fo=$@
 $(O)\m_fixed.obj:
-	$(CC) $(CFLAGS) m_fixed.c /fo=$@
+	$(CC) $(CFLAGS) watcom\m_fixed.c /fo=$@
 $(O)\m_swap.obj:
 	$(CC) $(CFLAGS) m_swap.c /fo=$@
 $(O)\m_cheat.obj:
@@ -220,10 +220,10 @@ $(O)\info.obj:
 	$(CC) $(CFLAGS) info.c /fo=$@
 $(O)\sounds.obj:
 	$(CC) $(CFLAGS) sounds.c /fo=$@
-$(O)\strncas.obj:
-	$(CC) $(CFLAGS) strnca~1.c /fo=$@
-$(O)\strcas.obj:
-	$(CC) $(CFLAGS) strcas~1.c /fo=$@
+$(O)\strncasecmp.obj:
+	$(CC) $(CFLAGS) strncasecmp.c /fo=$@
+$(O)\strcasecmp.obj:
+	$(CC) $(CFLAGS) strcasecmp.c /fo=$@
 $(O)\muldi3.obj:
 	$(CC) $(CFLAGS) muldi3.c /fo=$@
 $(O)\ashrdi3.obj:
