@@ -47,8 +47,8 @@
 /*  relative to current position. */
 /* Path names are OS-sensitive. */
 /* */
-#define DEVMAPS "devmaps"
-#define DEVDATA "devdata"
+#define DEVMAPS "devmaps\\"
+#define DEVDATA "devdata\\"
 
 
 /* Not done in french? */

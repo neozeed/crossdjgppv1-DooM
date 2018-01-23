@@ -33,6 +33,7 @@ static const char
 
 #include "doomdef.h"
 #include "m_swap.h"
+#include "m_fixed.h"
 
 #include "i_system.h"
 #include "z_zone.h"

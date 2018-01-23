@@ -79,7 +79,6 @@ OBJS=				\
 		$(O)/info.o				\
 		$(O)/sounds.o	\
 		$(O)/div.o	\
-		$(O)/exception.o \
 		$(O)/m_fixed_i386.o
 #		$(O)/strncasecmp.o	\
 #		$(O)/strcasecmp.o	
@@ -244,8 +243,6 @@ $(O)/tmap.o:
 #
 $(O)/m_fixed_i386.o:
 	$(CC) $(CFLAGS) -c m_fixed_i386.s -o $@
-$(O)/exception.o:
-	$(CC) $(CFLAGS) -c exception.s -o $@
 #Go32
 #$(O)/i_video.o:
 #	$(CC) $(CFLAGS) -c go32/i_video.c -o $@

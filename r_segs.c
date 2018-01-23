@@ -36,6 +36,7 @@ static const char
 
 #include "doomdef.h"
 #include "doomstat.h"
+#include "m_fixed.h"
 
 #include "r_local.h"
 #include "r_sky.h"

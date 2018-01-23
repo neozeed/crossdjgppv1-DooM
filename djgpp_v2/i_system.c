@@ -59,9 +59,11 @@ static const char
 
 //unsigned int ticcount;	/*our counter*/
 
+//How much memory to allocate to Zone
+int mb_used = 32;
 
-int mb_used = 6;
-
+/* need a 1MB stack */
+unsigned _stklen = 1048576;
 
 void
 I_Tactile
@@ -362,6 +364,16 @@ int I_GetTime (void)
 /* */
 void I_Init (void)
 {
+    i_love_bill = TRUE; // My machine doesn't work without it.  As you might have guessed,
+    // my machine is pretty shit. :-(
+
+    //something something FPU exceptions.
+    //MaskExceptions();
+
+    //load and init Allegro?
+  fprintf( stdout, "I_InitSound: Allegro init\n");
+    allegro_init();
+
   I_InitSound();
   /*  I_InitGraphics(); */
 
@@ -373,9 +385,6 @@ void I_Init (void)
   install_int_ex(I_Timer,BPS_TO_TIMER(TICRATE));
 
   // Init music
-
-    i_love_bill = FALSE; // My machine doesn't work without it.  As you might have guessed,
-    // my machine is pretty shit. :-(
 
   I_InitMusic();
 
@@ -403,14 +412,13 @@ void I_Quit (void)
 	I_ShutdownMusic();
 	M_SaveDefaults ();
 	I_ShutdownGraphics();
-  remove_keyboard();
-  remove_timer();
+	remove_keyboard();
+	remove_timer();
+	allegro_exit();
 
 	scr = (byte *)W_CacheLumpName("ENDOOM", 101); /*PU_CACHE 101*/
-    for (i=0;i<=22;i++) printf("\n");
-   memcpy((void *)(__djgpp_conventional_base)+0xb8000,scr,4000);
-    //memcpy((void *)(__djgpp_conventional_base)+0xb8000,W_CacheLumpNum(W_GetNumForName("ENDOOM"),PU_CACHE),4000);
-
+//	for (i=0;i<=22;i++) printf("\n");
+	   memcpy((void *)(__djgpp_conventional_base)+0xb8000,scr,4000);
 
 	exit(0);
 }

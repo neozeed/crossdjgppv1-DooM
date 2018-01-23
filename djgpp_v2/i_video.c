@@ -304,7 +304,7 @@ void I_SetPalette (byte* palette)
 #endif
 }
 
-
+#include <dpmi.h>
 void I_InitGraphics(void)
 {
       __dpmi_regs r;
@@ -317,6 +317,7 @@ void I_InitGraphics(void)
 
 	/*enter graphics mode */
 #ifdef GRAPHICS
+
       r.x.ax = 0x13;
       __dpmi_int(0x10, &r);
 //dascreen= (byte *)(__djgpp_conventional_base+0xa0000);

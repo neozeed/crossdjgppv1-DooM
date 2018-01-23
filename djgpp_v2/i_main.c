@@ -43,15 +43,13 @@ main
 	myargc = argc;
 	myargv = argv;
 
-    allegro_init();
     if (__djgpp_nearptr_enable())  //handle nearptr now
       D_DoomMain ();
     else
       printf ("Failed trying to allocate DOS near pointers.\n");
 
-
-	D_DoomMain ();
-
+	printf("exiting i_main.c: main()\n");
+	allegro_exit();
 
 	return 0;
 }

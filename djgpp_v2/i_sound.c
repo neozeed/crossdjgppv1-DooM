@@ -133,8 +133,15 @@ SAMPLE *raw2SAMPLE(unsigned char *rawdata, int len)
 
   spl=malloc(sizeof(SAMPLE));
   spl->bits = 8;
-  spl->freq = 5512;	//11025;
+//Doom 2
+if (gamemode == commercial){
+  spl->freq = 11025;
+  spl->len = len;
+  }
+else { //Doom 1
+  spl->freq = 5512;
   spl->len = len/2;
+  }
   spl->priority = 255;
   spl->loop_start = 0;
   spl->loop_end = len;
@@ -561,22 +568,20 @@ void
 I_InitSound()
 {
   int i;
-  fprintf( stderr, "I_InitSound: Allegro init\n");
-    allegro_init();
 
   // Secure and configure sound device first.
-  fprintf( stderr, "I_InitSound: ");
-  if (install_sound(DIGI_AUTODETECT, MIDI_AUTODETECT,NULL)==-1)
-    fprintf(stderr,"ALLEGRO SOUND INIT ERROR!!!!\n");
+  fprintf( stdout, "I_InitSound: ");
+  if (install_sound(DIGI_AUTODETECT, MIDI_MPU,NULL)==-1)
+    fprintf(stdout,"ALLEGRO SOUND INIT ERROR!!!!\n");
   else
-    fprintf(stderr, " configured audio device\n" );
+    fprintf(stdout, " configured audio device\n" );
   if(midi_driver)
-    fprintf(stderr, "Found a %s:%s\n",midi_driver->name,midi_driver->desc);
+    fprintf(stdout, "Found a %s:%s\n",midi_driver->name,midi_driver->desc);
   if(digi_driver)
-    fprintf(stderr, "Found a %s:%s\n",digi_driver->name,digi_driver->desc);  
+    fprintf(stdout, "Found a %s:%s\n",digi_driver->name,digi_driver->desc);  
 
   // Initialize external data (all sounds) at start, keep static.
-  fprintf( stderr, "I_InitSound: ");
+  fprintf( stdout, "I_InitSound: ");
   
   for (i=1 ; i<NUMSFX ; i++)
   { 
@@ -594,14 +599,14 @@ I_InitSound()
     }
   }
 
-  fprintf( stderr, " pre-cached all sound data\n");
+  fprintf( stdout, " pre-cached all sound data\n");
   
   // Now initialize mixbuffer with zero.
   for ( i = 0; i< MIXBUFFERSIZE; i++ )
     mixbuffer[i] = 0;
   
   // Finished initialization.
-  fprintf(stderr, "I_InitSound: sound module ready\n");
+  fprintf(stdout, "I_InitSound: sound module ready\n");
 }
 
 

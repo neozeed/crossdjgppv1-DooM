@@ -45,8 +45,6 @@ static const char rcsid[] = "$Id: d_main.c,v 1.8 1997/02/03 22:45:09 b1 Exp $";
 #include <sys/stat.h>
 #include <fcntl.h>
 
-/*#include <allegro.h>*/
-
 #include "doomdef.h"
 #include "doomstat.h"
 
@@ -711,9 +709,6 @@ void IdentifyVersion (void)
 	if ( !access (doomwad,R_OK) )
 	{
 		gamemode = registered;
-		/* Just because it's registered doesn't mean it may not have episode 4 */
-		if(W_CheckNumForName("E4M1")>0)			
-			gamemode = retail;
 		D_AddFile (doomwad);
 		return;
 	}
@@ -954,6 +949,7 @@ void D_DoomMain (void)
 			break;
 		}
 		D_AddFile (file);
+		devparm=1;
 	}
 
 	p = M_CheckParm ("-file");
@@ -1047,11 +1043,11 @@ void D_DoomMain (void)
 	{
 		/* These are the lumps that will be checked in IWAD, */
 		/* if any one is not present, execution will be aborted. */
-		char name[23][8]=
+		char name[15][8]=
 		{
 			"e2m1","e2m2","e2m3","e2m4","e2m5","e2m6","e2m7","e2m8","e2m9",
-			"e3m1","e3m3","e3m3","e3m4","e3m5","e3m6","e3m7","e3m8","e3m9",
-			"dphoof","bfgga0","heada1","cybra1","spida1d1"
+			"e3m1","e3m3","e3m3","e3m4","e3m5","e3m6","e3m7","e3m8","e3m9"
+			//"dphoof","bfgga0","heada1","cybra1","spida1d1"
 		};
 		int i;
 
@@ -1062,7 +1058,7 @@ void D_DoomMain (void)
 		/* Check for fake IWAD with right name, */
 		/* but w/o all the lumps of the registered version. */
 		if (gamemode == registered)
-			for (i = 0; i < 23; i++)
+			for (i = 0; i < 15; i++)
 				if (W_CheckNumForName(name[i])<0)
 					I_Error("\nThis is not the registered version.");
 	}
@@ -1094,6 +1090,9 @@ void D_DoomMain (void)
 			);
 		break;
 	case registered:
+		/* Just because it's registered doesn't mean it may not have episode 4 */
+		if(W_CheckNumForName("E4M1")>0)			
+			gamemode = retail;
 	case retail:
 	case commercial:
 		printf (

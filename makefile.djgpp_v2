@@ -8,11 +8,14 @@ CC=  gcc  # gcc or g++
 
 #CFLAGS=-g -Wall -DNORMALUNIX -DLINUX # -DUSEASM
 #CFLAGS=-g -m80387 -DALLOCA
-#CFLAGS= -I. -O -Idjgpp_v2 -Dalleg_keyboard_unused -I../allegro.31
-CFLAGS= -I. -O2 -m80387 -Idjgpp_v2 -DOTHERKEYBOARD -I../allegro.31
-LDFLAGS = -L../allegro.31/lib/djgpp
+#CFLAGS= -I. -O -Idjgpp_v2 -Dalleg_keyboard_unused -I../allegro.312
+#CFLAGS= -I. -O2 -msoft-float -Idjgpp_v2 -DOTHERKEYBOARD -I../allegro.312
+#CFLAGS = -m486 -O3 -ffast-math -fomit-frame-pointer -I. -Idjgpp_v2 -DOTHERKEYBOARD -I../allegro.312
+CFLAGS = -m486 -msoft-float -ffast-math -O2 -fforce-addr -fomit-frame-pointer -I. -Idjgpp_v2 -DOTHERKEYBOARD -I../allegro.312
+#CFLAGS = -O0 -g -I. -Idjgpp_v2 -DOTHERKEYBOARD -I../allegro.312
+LDFLAGS = -L../allegro.312/lib/djgpp
 # subdirectory for objects
-LIBS = -lalleg
+LIBS = -lalleg -lm
 O=obj
 
 #		$(O)/m_fixed.o		\
@@ -74,10 +77,11 @@ OBJS=				\
 		$(O)/s_sound.o		\
 		$(O)/z_zone.o			\
 		$(O)/info.o				\
-		$(O)/sounds.o	\
-		$(O)/div.o	\
-		$(O)/m_fixed.o
+		$(O)/sounds.o
+#		$(O)/div.o	
+#		$(O)/m_fixed.o
 #		$(O)/m_fixed_i386.o
+#		$(O)/m_fixed.o
 #		$(O)/strncasecmp.o	\
 #		$(O)/strcasecmp.o	
 #		$(O)/muldi3.o	\
@@ -88,7 +92,11 @@ SYSOBJ	=	\
 		$(O)/i_system.o		\
 		$(O)/i_video.o		\
 		$(O)/i_sound.o		\
-		$(O)/i_music.o		
+		$(O)/i_music.o		\
+		$(O)/_muldf3.o		\
+		$(O)/fxdfsi.o		\
+		$(O)/fltsidf.o
+#		$(O)/slige.o
 #		$(O)/midi.o
 #		$(O)/dpmi.o
 
@@ -99,7 +107,8 @@ clean:
 
 
 $(O)/doom.exe:	$(OBJS) $(SYSOBJ) $(O)/i_main.o
-	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) $(SYSOBJ) $(O)/i_main.o $(LIBS) -o $(O)/doom.exe
+	$(CC) $(LDFLAGS) $(OBJS) $(SYSOBJ) $(O)/i_main.o $(LIBS) -o $(O)/doom.exe
+	stubedit $(O)/doom.exe minstack=1M bufsize=64k
 	copy /Y $(O)\doom.exe test
 
 $(O)/%.o:	%.c
@@ -236,12 +245,21 @@ $(O)/ashrdi3.o:
 #this is needed for GCC 1.27
 $(O)/div.o:
 	$(CC) $(CFLAGS) -c div.s -o $@
+$(O)/_muldf3.o:
+	$(CC) -c gcc2721/_muldf3.c -o $@
+$(O)/fxdfsi.o:
+	$(CC) -c gcc2721/fxdfsi.c -o $@
+$(O)/fltsidf.o:
+	$(CC) -c gcc2721/fltsidf.c -o $@
+
 #i386 asm for R_DrawColumn
 $(O)/tmap.o:
 	$(CC) $(CFLAGS) -c tmap.s -o $@
 #
 $(O)/m_fixed_i386.o:
 	$(CC) $(CFLAGS) -c m_fixed_i386.s -o $@
+#$(O)/exception.o:
+#	$(CC) $(CFLAGS) -c exception.s -o $@
 #Go32
 #$(O)/i_video.o:
 #	$(CC) $(CFLAGS) -c go32/i_video.c -o $@
@@ -262,9 +280,9 @@ $(O)/i_system.o:
 $(O)/i_sound.o:
 	$(CC) $(CFLAGS) -c djgpp_v2/i_sound.c -o $@
 $(O)/i_music.o:
-	$(CC) $(CFLAGS) -Dalleg_keyboard_unused -I../allegro.31 -c djgpp_v2/i_music.c -o $@
+	$(CC) $(CFLAGS) -Dalleg_keyboard_unused -I../allegro.312 -c djgpp_v2/i_music.c -o $@
 $(O)/midi.o:
-	$(CC) $(CFLAGS) -I../allegro.31 -c ../allegro.31/src/midi.c -o $@
+	$(CC) $(CFLAGS) -I../allegro.312 -c ../allegro.312/src/midi.c -o $@
 
 # NULL
 #$(O)/i_video.o:
@@ -275,6 +293,8 @@ $(O)/midi.o:
 #GCC 1.39
 $(O)/xmalloc.o:
 	$(CC) $(CFLAGS) -c go32/xmalloc.c -o $@
+$(O)/slige.o:
+	$(CC) $(CFLAGS) -c addon/slige.c -o $@
 
 
 #############################################################

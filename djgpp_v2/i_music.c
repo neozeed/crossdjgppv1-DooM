@@ -10,9 +10,8 @@
 
 // For midi drivers and timer routines
 #include "allegro.h"
-
 #include "djgpp_v2/midi.c"
-//void update_controllers(void);
+
 
 // For memcpy routines
 #include <string.h>
@@ -686,14 +685,12 @@ void I_InitMusic(void)
   // Call the MusicTicker 140 times per second (by default) to send music to the MIDI device
   install_int_ex(MusicTicker, MUS_TIC_SPEED);
 
-#if 1
   // Reset the MIDI device to a default state: 
                //(all sound off, reset controllers)
   for (  all_sound_off[0] = all_sound_off[3] = 0xb0; 
          all_sound_off[0] <= 0xbf; 
          all_sound_off[0]++, all_sound_off[3]++)
              midi_out(all_sound_off, sizeof(all_sound_off));
-#endif
   update_controllers();
 }
 
@@ -779,72 +776,3 @@ void help(void)
 }
 
 #endif
-
-
-
-
-
-void junk()
-{
-  int handle,key;
-  char *data;
-
-    // Library init
-    allegro_init();
-    i_love_bill = TRUE; // My machine doesn't work without it.  As you might have guessed,
-    // my machine is pretty shit. :-(
-
-    // Install sound hardware.  Use 'allegro.cfg' to determine the sound drivers
-    if ((handle = install_sound(DIGI_AUTODETECT, MIDI_AUTODETECT, NULL)) < 0) {
-        printf("ERROR: '%s'", allegro_error);
-        return handle;
-    }
-
-    // Init music
-    I_InitMusic();
-
-    // Load entire midi patch set.
-    if (midi_driver->id == MIDI_DIGMID) {
-    load_midi_patches();
-	}
-  
-    // Open the file, check for error
-    handle = _open("d_bunny.mus", O_RDONLY);
-    if (handle < 0) { printf("open %s failed: error no %d\n", "d_bunny.mus", handle);
-                      return handle; }
-
-    // Grab some memory, check for error
-    data = malloc(filelength(handle));
-    if (data == NULL) { printf("out of memory\n"); return -1; }
-
-    // Load the data in
-    _read(handle, data, filelength(handle));
- 
-    // Close the file
-    _close(handle);
-
-    // Register the song with the music player
-    handle = I_RegisterSong(data);
-
-    // Start it playing, looping on
-    I_PlaySong(handle, 1);
-
-    // Print a cool message...
-    printf("DOOM Music Systems Test Programme by Kester Maddock\n");
-    printf("\nPress any key to stop, 'c' to exec 'command.com' ...\n");
-
-    // Wait for a keypress
-    key = getch();
-
-    // If it is 'c' exec command.com. MUSIC WHILE YOU WORK!!!!
-    if (key == 'c') system("command.com");
-
-    // Close down the music player
-    I_ShutdownMusic();
-
-    // Free up the memory 
-    free(data);
-
-  // No error
-  return ;
-}
