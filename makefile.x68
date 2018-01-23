@@ -7,7 +7,7 @@
 CC=gcc
 
 #CFLAGS=-g -Wall -DNORMALUNIX -DLINUX # -DUSEASM
-CFLAGS=-O0 -m68000 -DNORMALUNIX -DALLOCA
+CFLAGS=-O0 -m68000 -DNORMALUNIX -DALLOCA -D__BIG_ENDIAN__
 #CFLAGS=-DNORMALUNIX -O -m68000
 #CFLAGS=-DNORMALUNIX -O -m68020 -fstrength-reduce -fomit-frame-pointer 
 #GCC_OPTION=LFOAMP
@@ -90,6 +90,7 @@ LIB4=		$(O)/r_sky.o			\
 		$(O)/info.o				\
 		$(O)/sounds.o	\
 		$(O)/missing.o	\
+		$(O)/m_swap.o \
 		$(O)/mfixed020.o
 #		$(O)/m_fixed-LFOAMP.o
 #		$(O)/m_fixed.o
@@ -188,15 +189,13 @@ $(O)/serial.o:
 	$(CC) $(CFLAGS) -I. -c x68k\serial.c -o $@
 $(O)/vc.o:
 	$(CC) $(CFLAGS) -I. -c x68k\vc.c -o $@
-
 $(O)/mfixed020.o:
         $(CC) $(CFLAGS) -I. -c x68k\mfixed020.s -o $@
+$(O)/m_fixed.o:
+	copy m_fixed.o $(O)
 
-#$(O)/m_fixed.o:
-#	copy m_fixed.o $(O)
-
-#$(O)/m_swap.o:
-#	copy m_swap.o $(O)
+$(O)/m_swap.o:
+        $(CC) $(CFLAGS) -I. -c m_swap.c -o $@
 
 #$(O)/p_ceilng.o:
 #	copy p_ceilng.o $(O)

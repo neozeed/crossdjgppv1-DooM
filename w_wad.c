@@ -78,12 +78,20 @@ void**                  lumpcache;
 
 int DOOMfilelength (int handle)
 {
+#ifdef HUMAN68K
+	int length;
+	length=lseek(handle,0,SEEK_END);
+	printf("DOOMfilelength\t:%d bytes\n",length);
+	lseek(handle,0,SEEK_SET);
+	return length;
+#else
 	struct stat fileinfo;
 
 	if (fstat (handle,&fileinfo) == -1)
 		I_Error ("Error fstating");
 
 	return fileinfo.st_size;
+#endif
 }
 
 
@@ -155,6 +163,7 @@ void W_AddFile (char *filename)
 	filelump_t singleinfo;
 	int storehandle;
 
+printf("W_AddFile %s\n",filename);
 	/* open the file and add to directory */
 
 	/* handle reload indicator. */

@@ -213,6 +213,9 @@ extern char*    sndserver_filename;
 extern int mb_used;
 #endif
 
+int snd_musicdevice;
+int snd_sfxdevice;
+
 #ifdef LINUX
 char*           mousetype;
 char*           mousedev;
@@ -236,6 +239,8 @@ default_t defaults[] =
 	{"mouse_sensitivity",&mouseSensitivity, 5},
 	{"sfx_volume",&snd_SfxVolume, 8},
 	{"music_volume",&snd_MusicVolume, 8},
+ 	{"snd_musicdevice",&snd_musicdevice, 0},
+ 	{"snd_sfxdevice",&snd_sfxdevice, 0},
 	{"show_messages",&showMessages, 1},
 
 	{"key_right",&key_right, KEY_RIGHTARROW},

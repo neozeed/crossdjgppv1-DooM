@@ -28,6 +28,10 @@ static const char
 
 
 #include "doomdef.h"
+#ifdef human68k
+#include <doslib.h>
+#include <iocslib.h>
+#endif
 
 #include "m_argv.h"
 #include "d_main.h"
@@ -37,10 +41,21 @@ main
         ( int argc,
         char**        argv )
 {
+       int b_ssp;
 	myargc = argc;
 	myargv = argv;
 
+/*enter supervisor mode on the x68000 ... not sure what the difference is 
+ between SUPER vs B_SUPER */
+#ifdef human68k
+        b_ssp=_iocs_b_super(0);
+#endif
+
 	D_DoomMain ();
+
+#ifdef human68k
+        _iocs_b_super(b_ssp);
+#endif
 
 	return 0;
 }

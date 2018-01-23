@@ -4,11 +4,11 @@
 #
 # $Log:$
 #
-CC=  gcc_v1  # gcc or g++
+CC=  gcc_v127  # gcc or g++
 
 #CFLAGS=-g -Wall -DNORMALUNIX -DLINUX # -DUSEASM
 #CFLAGS=-g -m80387 -DALLOCA
-CFLAGS= -I. -O
+CFLAGS= -I. -Inull -O
 #LDFLAGS=-L/usr/X11R6/lib
 #LIBS=-lXext -lX11 -lnsl -lm
 LDFLAGS=
@@ -79,6 +79,7 @@ OBJS=				\
 		$(O)/info.o				\
 		$(O)/sounds.o	\
 		$(O)/div.o	\
+		$(O)/exception.o \
 		$(O)/m_fixed_i386.o
 #		$(O)/strncasecmp.o	\
 #		$(O)/strcasecmp.o	
@@ -115,7 +116,7 @@ $(O)/doomstat.o:
 $(O)/dstrings.o:
 	$(CC) $(CFLAGS) -c dstrings.c -o $@
 $(O)/i_sound.o:
-	$(CC) $(CFLAGS) -c i_sound.c -o $@
+	$(CC) $(CFLAGS) -c null/i_sound.c -o $@
 $(O)/i_net.o:
 	$(CC) $(CFLAGS) -c i_net.c -o $@
 $(O)/tables.o:
@@ -237,9 +238,14 @@ $(O)/ashrdi3.o:
 #this is needed for GCC 1.27
 $(O)/div.o:
 	$(CC) $(CFLAGS) -c div.s -o $@
+#i386 asm for R_DrawColumn
+$(O)/tmap.o:
+	$(CC) $(CFLAGS) -c tmap.s -o $@
 #
 $(O)/m_fixed_i386.o:
 	$(CC) $(CFLAGS) -c m_fixed_i386.s -o $@
+$(O)/exception.o:
+	$(CC) $(CFLAGS) -c exception.s -o $@
 #Go32
 #$(O)/i_video.o:
 #	$(CC) $(CFLAGS) -c go32/i_video.c -o $@

@@ -34,6 +34,7 @@ static const char
 
 #include <signal.h>
 //#include <graphics.h>
+#include <allegro.h>
 
 #include <pc.h>
 #include <go32.h>
@@ -69,115 +70,11 @@ typedef struct {
 #include "d_main.h"
 
 #include "doomdef.h"
-
+//doomdef.h
+#define KEYD_PAUSE    0xff
 /*dosstuff -newly added */
-byte* dascreen;
-volatile char keydown[128];
-volatile char extendedkeydown[128];
-volatile char nextkeyextended;
-void initkeyhandler();
-void killkeyhandler();
-void keyhandler();
 char oldkeystate[128];
-char oldextendedkeystate[128];
-
-#define KBDQUESIZE 32
-byte keyboardque[KBDQUESIZE];
-int kbdtail, kbdhead;
-int lastpress;
-_go32_dpmi_seginfo old_keyboard,new_keyboard;
-
-
-void initkeyhandler()
-{
-	int i;
-
-	for (i=0; i<128; i++) keydown[i]=0;
-	for (i=0; i<128; i++) extendedkeydown[i]=0;
-	for (i=0; i<128; i++) oldkeystate[i]=0;
-	for (i=0; i<128; i++) oldextendedkeystate[i]=0;
-	nextkeyextended=0;
-
-  _go32_dpmi_get_protected_mode_interrupt_vector(9, &old_keyboard);
-  new_keyboard.pm_offset = (int)keyhandler;
-  new_keyboard.pm_selector = _go32_my_cs();
-  _go32_dpmi_chain_protected_mode_interrupt_vector(9, &new_keyboard);
-
-}
-
-/* keyboard interface bits */
-#define bit(n) (1<<(n)) /* Set to 1 bit n */
-#define KBRD_KDATA bit(0) /* keyboard data is (not) in buffer (bit 0) */
-#define KBRD_UDATA bit(1) /* user data is (not) in buffer (bit 1) */
-#define KBRD_IO 0x60 /* keyboard IO port */
-#define KBRD_RESET 0xFE /* reset CPU command */
-#define KBRD_INTRFC 0x64
-void killkeyhandler()
-{
-unsigned int temp;
-        _go32_dpmi_set_protected_mode_interrupt_vector(9, &old_keyboard);
-
-/* flush the keyboard controller */
-   do /* empty user data in buffer */
-   {
-      temp = inportb(KBRD_INTRFC);
-      if ((temp & KBRD_KDATA) != 0)
-         inportb(KBRD_IO); /* empty keyboard data in buffer */
-   } while ((temp & KBRD_UDATA) != 0);
-	fflush(stdin);
-}
-
-void keyhandler(void)
-{
-keyboardque[kbdhead&(KBDQUESIZE-1)] = lastpress = inportb(0x60);
-kbdhead++;
-
-/* acknowledge the interrupt	*/
-
-	outportb(0x20,0x20);
-}
-
-
-
-#define SC_UPARROW              0x48
-#define SC_DOWNARROW    0x50
-#define SC_LEFTARROW            0x4b
-#define SC_RIGHTARROW   0x4d
-#define SC_RSHIFT       0x36
-#define SC_LSHIFT       0x2a
-
-#define KEY_LSHIFT      0xfe
-#define KEY_INS         (0x80+0x52)
-#define KEY_DEL         (0x80+0x53)
-#define KEY_PGUP        (0x80+0x49)
-#define KEY_PGDN        (0x80+0x51)
-#define KEY_HOME        (0x80+0x47)
-#define KEY_END         (0x80+0x4f)
-
-byte        scantokey[128] =
-					{
-/*  0           1       2       3       4       5       6       7
-    8           9       A       B       C       D       E       F		*/
-	0  ,    27,     '1',    '2',    '3',    '4',    '5',    '6',
-	'7',    '8',    '9',    '0',    '-',    '=',    KEY_BACKSPACE, 9, /* 0	*/
-	'q',    'w',    'e',    'r',    't',    'y',    'u',    'i',
-	'o',    'p',    '[',    ']',    13 ,    KEY_RCTRL,'a',  's',      /* 1	*/
-	'd',    'f',    'g',    'h',    'j',    'k',    'l',    ';',
-	39 ,    '`',    KEY_LSHIFT,92,  'z',    'x',    'c',    'v',      /* 2	*/
-	'b',    'n',    'm',    ',',    '.',    '/',    KEY_RSHIFT,'*',
-	KEY_RALT,' ',   0  ,    KEY_F1, KEY_F2, KEY_F3, KEY_F4, KEY_F5,   /* 3	*/
-	KEY_F6, KEY_F7, KEY_F8, KEY_F9, KEY_F10,0  ,    0  , KEY_HOME,
-	KEY_UPARROW,KEY_PGUP,'-',KEY_LEFTARROW,'5',KEY_RIGHTARROW,'+',KEY_END, /*4	*/
-	KEY_DOWNARROW,KEY_PGDN,KEY_INS,KEY_DEL,0,0,             0,     KEY_F11,
-	KEY_F12,0  ,    0  ,    0  ,    0  ,    0  ,    0  ,    0,        /* 5	*/
-	0  ,    0  ,    0  ,    0  ,    0  ,    0  ,    0  ,    0,
-	0  ,    0  ,    0  ,    0  ,    0  ,    0  ,    0  ,    0,        /* 6	*/
-	0  ,    0  ,    0  ,    0  ,    0  ,    0  ,    0  ,    0,
-	0  ,    0  ,    0  ,    0  ,    0  ,    0  ,    0  ,    0         /* 7	*/
-					};
-
-
-/*end of newly added stuff */
+byte* dascreen;
 
 
 void I_ShutdownGraphics(void)
@@ -204,11 +101,74 @@ void I_StartFrame (void)
 
 void I_GetEvent()
 {
+
+  event_t event;
+  int i,j;
+
+  char keystate[128];
+  int xmickeys,ymickeys,buttons;
+  static int lastbuttons=0;
+
+  //key presses
+  for (i=0;i<128;i++)
+    keystate[i]=key[i];
+  for (i=0;i<128;i++)
+    {
+    char normkey,extkey,oldnormkey,oldextkey;
+
+    normkey=keystate[i]&KB_NORMAL; extkey=keystate[i]&KB_EXTENDED;
+    oldnormkey=oldkeystate[i]&KB_NORMAL; oldextkey=oldkeystate[i]&KB_EXTENDED;
+
+    if ((normkey!=0)&&(oldnormkey==0))
+      {
+      event.type=ev_keydown;
+      event.data1=I_ScanCode2DoomCode(i);
+      D_PostEvent(&event);
+      }
+    if ((normkey==0)&&(oldnormkey!=0))
+      {
+      event.type=ev_keyup;
+      event.data1=I_ScanCode2DoomCode(i);
+      D_PostEvent(&event);
+      }
+    if ((extkey!=0)&&(oldextkey==0))
+      {
+      if ((i==0x48)||(i==0x4d)||(i==0x50)||(i==0x4b)||(i==KEY_ALTGR)||(i==KEY_RCONTROL)||(i==KEY_PGDN)||(i==KEY_PGUP)||(i==KEY_HOME)||(i==KEY_PRTSCR))
+        {
+        event.type=ev_keydown;
+        event.data1=I_ScanCode2DoomCode(i);
+        D_PostEvent(&event);
+        }
+      else if (i==0x7b)
+        {
+        event.type=ev_keydown;
+        event.data1=KEYD_PAUSE;
+        D_PostEvent(&event);
+        key[0x7b]=0;break;
+        event.type=ev_keyup;
+        event.data1=KEYD_PAUSE;
+        D_PostEvent(&event);
+        }
+      }
+    if ((extkey==0)&&(oldextkey!=0))
+      {
+      if ((i==0x48)||(i==0x4d)||(i==0x50)||(i==0x4b)||(i==KEY_ALTGR)||(i==KEY_RCONTROL)||(i==KEY_PGDN)||(i==KEY_PGUP)||(i==KEY_HOME)||(i==KEY_PRTSCR))
+        {
+        event.type=ev_keyup;
+        event.data1=I_ScanCode2DoomCode(i);
+        D_PostEvent(&event);
+        }
+      }
+    }
+  memcpy(oldkeystate,keystate,128);
+
+#if 0
+
+
 	event_t event;
 	char tempkey[128];
 	char tempextendedkey[128];
 	int i,k;
-
 	while (kbdtail < kbdhead)
 	{
 		k = keyboardque[kbdtail&(KBDQUESIZE-1)];
@@ -261,7 +221,7 @@ void I_GetEvent()
 		}
 		D_PostEvent (&event);
 	}
-
+#endif
 
 
 
@@ -347,6 +307,7 @@ void I_SetPalette (byte* palette)
 
 void I_InitGraphics(void)
 {
+      __dpmi_regs r;
 
 	static int firsttime=1;
 
@@ -356,8 +317,6 @@ void I_InitGraphics(void)
 
 	/*enter graphics mode */
 #ifdef GRAPHICS
-      __dpmi_regs r;
-
       r.x.ax = 0x13;
       __dpmi_int(0x10, &r);
 //dascreen= (byte *)(__djgpp_conventional_base+0xa0000);
@@ -371,7 +330,7 @@ dascreen=(byte *)malloc(SCREENWIDTH*SCREENHEIGHT);
 	/*init the mouse */
 
 	/*init keyboard */
-	initkeyhandler();
+	//initkeyhandler();
 }
 
 

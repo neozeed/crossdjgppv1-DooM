@@ -45,6 +45,8 @@ static const char rcsid[] = "$Id: d_main.c,v 1.8 1997/02/03 22:45:09 b1 Exp $";
 #include <sys/stat.h>
 #include <fcntl.h>
 
+/*#include <allegro.h>*/
+
 #include "doomdef.h"
 #include "doomstat.h"
 
@@ -110,6 +112,7 @@ boolean singletics = false;         /* debug flag to cancel adaptiveness */
 /*extern int soundVolume; */
 /*extern  int	sfxVolume; */
 /*extern  int	musicVolume; */
+int swapstereo;
 
 extern boolean inhelpscreens;
 
@@ -584,32 +587,39 @@ void IdentifyVersion (void)
 
 	/* Commercial. */
 	doom2wad = malloc(strlen(doomwaddir)+1+9+1);
-	sprintf(doom2wad, "%s/doom2.wad", doomwaddir);
+	/*sprintf(doom2wad, "%s/doom2.wad", doomwaddir);*/
+	sprintf(doom2wad, "doom2.wad");
 
 	/* Retail. */
 	doomuwad = malloc(strlen(doomwaddir)+1+8+1);
-	sprintf(doomuwad, "%s/doomu.wad", doomwaddir);
+	/*sprintf(doomuwad, "%s/doomu.wad", doomwaddir);*/
+	sprintf(doomuwad, "doomu.wad");
 
 	/* Registered. */
 	doomwad = malloc(strlen(doomwaddir)+1+8+1);
-	sprintf(doomwad, "%s/doom.wad", doomwaddir);
+	/*sprintf(doomwad, "%s/doom.wad", doomwaddir);*/
+	sprintf(doomwad, "doom.wad", doomwaddir);
 
 	/* Shareware. */
 	doom1wad = malloc(strlen(doomwaddir)+1+9+1);
-	sprintf(doom1wad, "%s/doom1.wad", doomwaddir);
+	/*sprintf(doom1wad, "%s/doom1.wad", doomwaddir);*/
+	sprintf(doom1wad, "doom1.wad");
 
 	/* Bug, dear Shawn. */
 	/* Insufficient malloc, caused spurious realloc errors. */
 	plutoniawad = malloc(strlen(doomwaddir)+1+/*9*/ 12+1);
-	sprintf(plutoniawad, "%s/plutonia.wad", doomwaddir);
+	/*sprintf(plutoniawad, "%s/plutonia.wad", doomwaddir);*/
+	sprintf(plutoniawad, "plutonia.wad");
 
 	tntwad = malloc(strlen(doomwaddir)+1+9+1);
-	sprintf(tntwad, "%s/tnt.wad", doomwaddir);
+	/*sprintf(tntwad, "%s/tnt.wad", doomwaddir);*/
+	sprintf(tntwad, "tnt.wad");
 
 
 	/* French stuff. */
 	doom2fwad = malloc(strlen(doomwaddir)+1+10+1);
-	sprintf(doom2fwad, "%s/doom2f.wad", doomwaddir);
+	/*sprintf(doom2fwad, "%s/doom2f.wad", doomwaddir);*/
+	sprintf(doom2fwad, "doom2f.wad");
 
 /*    home = getenv("HOME"); */
 /*    if (!home) */
@@ -701,6 +711,9 @@ void IdentifyVersion (void)
 	if ( !access (doomwad,R_OK) )
 	{
 		gamemode = registered;
+		/* Just because it's registered doesn't mean it may not have episode 4 */
+		if(W_CheckNumForName("E4M1")>0)			
+			gamemode = retail;
 		D_AddFile (doomwad);
 		return;
 	}

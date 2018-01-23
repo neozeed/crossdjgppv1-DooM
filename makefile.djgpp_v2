@@ -8,8 +8,9 @@ CC=  gcc  # gcc or g++
 
 #CFLAGS=-g -Wall -DNORMALUNIX -DLINUX # -DUSEASM
 #CFLAGS=-g -m80387 -DALLOCA
-CFLAGS= -I. -O -Idjgpp_v2 -Dalleg_keyboard_unused -I../allegro.31
-LDFLAGS = -L../allegro.31
+#CFLAGS= -I. -O -Idjgpp_v2 -Dalleg_keyboard_unused -I../allegro.31
+CFLAGS= -I. -O2 -m80387 -Idjgpp_v2 -DOTHERKEYBOARD -I../allegro.31
+LDFLAGS = -L../allegro.31/lib/djgpp
 # subdirectory for objects
 LIBS = -lalleg
 O=obj
@@ -75,7 +76,8 @@ OBJS=				\
 		$(O)/info.o				\
 		$(O)/sounds.o	\
 		$(O)/div.o	\
-		$(O)/m_fixed_i386.o
+		$(O)/m_fixed.o
+#		$(O)/m_fixed_i386.o
 #		$(O)/strncasecmp.o	\
 #		$(O)/strcasecmp.o	
 #		$(O)/muldi3.o	\
@@ -106,7 +108,7 @@ $(O)/%.o:	%.c
 $(O)/doomdef.o:
 	$(CC) $(CFLAGS) -c doomdef.c -o $@
 $(O)/i_main.o:
-	$(CC) $(CFLAGS) -c i_main.c -o $@
+	$(CC) $(CFLAGS) -c djgpp_v2/i_main.c -o $@
 $(O)/doomstat.o:
 	$(CC) $(CFLAGS) -c doomstat.c -o $@
 $(O)/dstrings.o:

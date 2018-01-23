@@ -18,41 +18,40 @@
 /* $Log:$ */
 /* */
 /* DESCRIPTION: */
-/*	Endianess handling, swapping 16bit and 32bit. */
+/*	Main program, simply calls D_DoomMain high level loop. */
 /* */
 /*----------------------------------------------------------------------------- */
 /*
 static const char
-        rcsid[] = "$Id: m_bbox.c,v 1.1 1997/02/03 22:45:10 b1 Exp $";
+        rcsid[] = "$Id: i_main.c,v 1.4 1997/02/03 22:45:10 b1 Exp $";
 */
 
-#ifdef __GNUG__
-#pragma implementation "m_swap.h"
-#endif
-#include "m_swap.h"
+#include <stdio.h>
+#include <sys/nearptr.h>
+#include <allegro.h>
+#include "doomdef.h"
 
+#include "m_argv.h"
+#include "d_main.h"
 
-/* Not needed with big endian. */
-#ifdef __BIG_ENDIAN__
-
-/* Swap 16bit, that is, MSB and LSB byte. */
-short SwapSHORT(short x)
+int
+main
+        ( int argc,
+        char**        argv )
 {
-	/* No masking with 0xFF should be necessary. */
-	return (x>>8) | (x<<8);
+       int b_ssp;
+	myargc = argc;
+	myargv = argv;
+
+    allegro_init();
+    if (__djgpp_nearptr_enable())  //handle nearptr now
+      D_DoomMain ();
+    else
+      printf ("Failed trying to allocate DOS near pointers.\n");
+
+
+	D_DoomMain ();
+
+
+	return 0;
 }
-
-/* Swapping 32bit. */
-long SwapLONG( long x)
-{
-	return
-	        (x>>24)
-	        | ((x>>8) & 0xff00)
-	        | ((x<<8) & 0xff0000)
-	        | (x<<24);
-}
-
-
-#endif
-
-

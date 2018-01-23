@@ -15,7 +15,7 @@ LDFLAGS=
 LIBS= -lgcc -lgr -lpc
 
 # subdirectory for objects
-O=dos
+O=obj
 
 # not too sophisticated dependency
 OBJS=				\
@@ -99,157 +99,157 @@ $(O)/doom:	$(OBJS) $(SYSOBJ) $(O)/i_main.o
 $(O)/%.o:	%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-dos/doomdef.o:
+$(O)/doomdef.o:
 	$(CC) $(CFLAGS) -c doomdef.c -o $@
-dos/i_main.o:
+$(O)/i_main.o:
 	$(CC) $(CFLAGS) -c i_main.c -o $@
-dos/doomstat.o:
+$(O)/doomstat.o:
 	$(CC) $(CFLAGS) -c doomstat.c -o $@
-dos/dstrings.o:
+$(O)/dstrings.o:
 	$(CC) $(CFLAGS) -c dstrings.c -o $@
-dos/i_sound.o:
-	$(CC) $(CFLAGS) -c i_sound.c -o $@
-dos/i_net.o:
+$(O)/i_net.o:
 	$(CC) $(CFLAGS) -c i_net.c -o $@
-dos/tables.o:
+$(O)/tables.o:
 	$(CC) $(CFLAGS) -c tables.c -o $@
-dos/f_finale.o:
+$(O)/f_finale.o:
 	$(CC) $(CFLAGS) -c f_finale.c -o $@
-dos/f_wipe.o:
+$(O)/f_wipe.o:
 	$(CC) $(CFLAGS) -c f_wipe.c -o $@
-dos/d_main.o:
-	$(CC) $(CFLAGS) -c d_main.c -o $@
-dos/d_net.o:
+$(O)/d_main.o:
+	$(CC) $(CFLAGS) -Inull -c d_main.c -o $@
+$(O)/d_net.o:
 	$(CC) $(CFLAGS) -c d_net.c -o $@
-dos/d_items.o:
+$(O)/d_items.o:
 	$(CC) $(CFLAGS) -c d_items.c -o $@
-dos/g_game.o:
+$(O)/g_game.o:
 	$(CC) $(CFLAGS) -c g_game.c -o $@
-dos/m_menu.o:
+$(O)/m_menu.o:
 	$(CC) $(CFLAGS) -c m_menu.c -o $@
-dos/m_misc.o:
+$(O)/m_misc.o:
 	$(CC) $(CFLAGS) -c m_misc.c -o $@
-dos/m_argv.o:
+$(O)/m_argv.o:
 	$(CC) $(CFLAGS) -c m_argv.c -o $@
-dos/m_bbox.o:
+$(O)/m_bbox.o:
 	$(CC) $(CFLAGS) -c m_bbox.c -o $@
-dos/m_fixed.o:
+$(O)/m_fixed.o:
 	$(CC) $(CFLAGS) -c m_fixed.c -o $@
-dos/m_swap.o:
+$(O)/m_swap.o:
 	$(CC) $(CFLAGS) -c m_swap.c -o $@
-dos/m_cheat.o:
+$(O)/m_cheat.o:
 	$(CC) $(CFLAGS) -c m_cheat.c -o $@
-dos/m_random.o:
+$(O)/m_random.o:
 	$(CC) $(CFLAGS) -c m_random.c -o $@
-dos/am_map.o:
+$(O)/am_map.o:
 	$(CC) $(CFLAGS) -c am_map.c -o $@
-dos/p_ceilng.o:
+$(O)/p_ceilng.o:
 	$(CC) $(CFLAGS) -c p_ceilng.c -o $@
-dos/p_doors.o:
+$(O)/p_doors.o:
 	$(CC) $(CFLAGS) -c p_doors.c -o $@
-dos/p_enemy.o:
+$(O)/p_enemy.o:
 	$(CC) $(CFLAGS) -c p_enemy.c -o $@
-dos/p_floor.o:
+$(O)/p_floor.o:
 	$(CC) $(CFLAGS) -c p_floor.c -o $@
-dos/p_inter.o:
+$(O)/p_inter.o:
 	$(CC) $(CFLAGS) -c p_inter.c -o $@
-dos/p_lights.o:
+$(O)/p_lights.o:
 	$(CC) $(CFLAGS) -c p_lights.c -o $@
-dos/p_map.o:
+$(O)/p_map.o:
 	$(CC) $(CFLAGS) -c p_map.c -o $@
-dos/p_maputl.o:
+$(O)/p_maputl.o:
 	$(CC) $(CFLAGS) -c p_maputl.c -o $@
-dos/p_plats.o:
+$(O)/p_plats.o:
 	$(CC) $(CFLAGS) -c p_plats.c -o $@
-dos/p_pspr.o:
+$(O)/p_pspr.o:
 	$(CC) $(CFLAGS) -c p_pspr.c -o $@
-dos/p_setup.o:
+$(O)/p_setup.o:
 	$(CC) $(CFLAGS) -c p_setup.c -o $@
-dos/p_sight.o:
+$(O)/p_sight.o:
 	$(CC) $(CFLAGS) -c p_sight.c -o $@
-dos/p_spec.o:
+$(O)/p_spec.o:
 	$(CC) $(CFLAGS) -c p_spec.c -o $@
-dos/p_switch.o:
+$(O)/p_switch.o:
 	$(CC) $(CFLAGS) -c p_switch.c -o $@
-dos/p_mobj.o:
+$(O)/p_mobj.o:
 	$(CC) $(CFLAGS) -c p_mobj.c -o $@
-dos/p_telept.o:
+$(O)/p_telept.o:
 	$(CC) $(CFLAGS) -c p_telept.c -o $@
-dos/p_tick.o:
+$(O)/p_tick.o:
 	$(CC) $(CFLAGS) -c p_tick.c -o $@
 #This file on O2 will crash GCC 2.1
 #
-dos/p_saveg.o:
+$(O)/p_saveg.o:
 	$(CC) -O1 -I. -c p_saveg.c -o $@
-dos/p_user.o:
+$(O)/p_user.o:
 	$(CC) $(CFLAGS) -c p_user.c -o $@
-dos/r_bsp.o:
+$(O)/r_bsp.o:
 	$(CC) $(CFLAGS) -c r_bsp.c -o $@
-dos/r_data.o:
+$(O)/r_data.o:
 	$(CC) $(CFLAGS) -c r_data.c -o $@
-dos/r_draw.o:
+$(O)/r_draw.o:
 	$(CC) $(CFLAGS) -c r_draw.c -o $@
-dos/r_main.o:
+$(O)/r_main.o:
 	$(CC) $(CFLAGS) -c r_main.c -o $@
-dos/r_plane.o:
+$(O)/r_plane.o:
 	$(CC) $(CFLAGS) -c r_plane.c -o $@
-dos/r_segs.o:
+$(O)/r_segs.o:
 	$(CC) $(CFLAGS) -c r_segs.c -o $@
-dos/r_sky.o:
+$(O)/r_sky.o:
 	$(CC) $(CFLAGS) -c r_sky.c -o $@
-dos/r_things.o:
+$(O)/r_things.o:
 	$(CC) $(CFLAGS) -c r_things.c -o $@
-dos/w_wad.o:
+$(O)/w_wad.o:
 	$(CC) $(CFLAGS) -c w_wad.c -o $@
-dos/wi_stuff.o:
+$(O)/wi_stuff.o:
 	$(CC) $(CFLAGS) -c wi_stuff.c -o $@
-dos/v_video.o:
+$(O)/v_video.o:
 	$(CC) $(CFLAGS) -c v_video.c -o $@
-dos/st_lib.o:
+$(O)/st_lib.o:
 	$(CC) $(CFLAGS) -c st_lib.c -o $@
-dos/st_stuff.o:
+$(O)/st_stuff.o:
 	$(CC) $(CFLAGS) -c st_stuff.c -o $@
-dos/hu_stuff.o:
+$(O)/hu_stuff.o:
 	$(CC) $(CFLAGS) -c hu_stuff.c -o $@
-dos/hu_lib.o:
+$(O)/hu_lib.o:
 	$(CC) $(CFLAGS) -c hu_lib.c -o $@
-dos/s_sound.o:
-	$(CC) $(CFLAGS) -c s_sound.c -o $@
-dos/z_zone.o:
+$(O)/s_sound.o:
+	$(CC) $(CFLAGS) -Inull -c s_sound.c -o $@
+$(O)/z_zone.o:
 	$(CC) $(CFLAGS) -c z_zone.c -o $@
-dos/info.o:
+$(O)/info.o:
 	$(CC) $(CFLAGS) -c info.c -o $@
-dos/sounds.o:
+$(O)/sounds.o:
 	$(CC) $(CFLAGS) -c sounds.c -o $@
-dos/strncasecmp.o:
+$(O)/strncasecmp.o:
 	$(CC) $(CFLAGS) -c strncasecmp.c -o $@
-dos/strcasecmp.o:
+$(O)/strcasecmp.o:
 	$(CC) $(CFLAGS) -c strcasecmp.c -o $@
-dos/muldi3.o:
+$(O)/muldi3.o:
 	$(CC) $(CFLAGS) -c muldi3.c -o $@
-dos/ashrdi3.o:
+$(O)/ashrdi3.o:
 	$(CC) $(CFLAGS) -c ashrdi3.c -o $@
 
 #Go32
-#dos/i_video.o:
+#$(O)/i_video.o:
 #	$(CC) $(CFLAGS) -c go32/i_video.c -o $@
-#dos/i_system.o:
+#$(O)/i_system.o:
 #	$(CC) $(CFLAGS) -c go32/i_system.c -o $@
 #go32 DPMI
-dos/i_video.o:
+$(O)/i_video.o:
 	$(CC) $(CFLAGS) -c go32_dpmi/i_video.c -o $@
-dos/i_system.o:
-	$(CC) $(CFLAGS) -c go32_dpmi/i_system.c -o $@
-dos/dpmi.o:
+$(O)/i_system.o:
+	$(CC) $(CFLAGS) -Inull -c go32_dpmi/i_system.c -o $@
+$(O)/dpmi.o:
 	$(CC) $(CFLAGS) -c go32_dpmi/dpmi.c -o $@
 # NULL
-#dos/i_video.o:
+#$(O)/i_video.o:
 #	$(CC) $(CFLAGS) -c null/i_video.c -o $@
-#dos/i_system.o:
+#$(O)/i_system.o:
 #	$(CC) $(CFLAGS) -c null/i_system.c -o $@
+$(O)/i_sound.o:
+	$(CC) $(CFLAGS) -c null/i_sound.c -o $@
 
 #GCC 1.39
-#dos/xmalloc.o:
+#$(O)/xmalloc.o:
 #	$(CC) $(CFLAGS) -c go32/xmalloc.c -o $@
 
 

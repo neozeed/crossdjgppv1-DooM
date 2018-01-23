@@ -566,7 +566,7 @@ I_InitSound()
 
   // Secure and configure sound device first.
   fprintf( stderr, "I_InitSound: ");
-  if (install_sound(DIGI_AUTODETECT, MIDI_MPU,NULL)==-1)
+  if (install_sound(DIGI_AUTODETECT, MIDI_AUTODETECT,NULL)==-1)
     fprintf(stderr,"ALLEGRO SOUND INIT ERROR!!!!\n");
   else
     fprintf(stderr, " configured audio device\n" );

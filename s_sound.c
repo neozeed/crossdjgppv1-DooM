@@ -29,7 +29,9 @@ static const char
 
 #include <stdio.h>
 #include <stdlib.h>
-
+/*
+#include <allegro.h>
+*/
 #include "i_system.h"
 #include "i_sound.h"
 #include "sounds.h"
@@ -168,7 +170,7 @@ void S_Init
 	fprintf( stderr, "S_Init: default sfx volume %d\n", sfxVolume);
 
 	/* Whatever these did with DMX, these are rather dummies now. */
-	I_SetChannels();
+	/*I_SetChannels();*/
 
 	S_SetSfxVolume(sfxVolume);
 	/* No music with Linux - another dummy. */
