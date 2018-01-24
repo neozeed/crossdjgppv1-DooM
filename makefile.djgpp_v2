@@ -93,10 +93,11 @@ SYSOBJ	=	\
 		$(O)/i_video.o		\
 		$(O)/i_sound.o		\
 		$(O)/i_music.o		\
-		$(O)/linear.o		\
+		$(O)/r_drawspan.o	\
 		$(O)/_muldf3.o		\
 		$(O)/fxdfsi.o		\
 		$(O)/fltsidf.o
+#		$(O)/r_drawcolumn.o	\
 #		$(O)/slige.o
 #		$(O)/midi.o
 #		$(O)/dpmi.o
@@ -275,8 +276,14 @@ $(O)/m_fixed_i386.o:
 #$(O)/dpmi.o:
 #	$(CC) $(CFLAGS) -c go32_dpmi/dpmi.c -o $@
 # djgpp_v2
-$(O)/linear.o:
-	copy linear.o2c obj\linear.o
+#$(O)/linear.o:
+#	tools\objconv\objconv.exe -fcof32 -nu+ -nr:R_DRAWSPAN:_RDrawSpan -nr:R_DRAWCOLUMN:_RDrawColumn -nr:YLOOKUP:_ylookup -nr:DC_YH:_dc_yh -nr:DC_X:_dc_x -nr:COLUMNOFS:_columnofs -nr:DC_YL:_dc_yl -nr:DC_ISCALE:_dc_iscale -nr:CENTERY:_centery -nr:DC_TEXTUREMID:_dc_texturemid -nr:DC_SOURCE:_dc_source -nr:DC_COLORMAP:_dc_colormap -nr:DS_X1:_ds_x1 -nr:DS_X2:_ds_x2 -nr:DS_XFRAC:_ds_xfrac -nr:DS_YFRAC:_ds_yfrac -nr:DS_XSTEP:_ds_xstep -nr:DS_YSTEP:_ds_ystep -nr:DS_SOURCE:_ds_source -nr:DS_Y:_ds_y -nr:DS_COLORMAP:_ds_colormap LINEAR.OBJ obj\linear.o
+#
+#	copy linear.o2c obj\linear.o
+$(O)/r_drawspan.o:
+	$(CC) $(CFLAGS) -c r_drawspan.s -o $@
+$(O)/r_drawcolumn.o:
+	$(CC) $(CFLAGS) -c r_drawcolumn.s -o $@
 $(O)/i_video.o:
 	$(CC) $(CFLAGS) -c djgpp_v2/i_video.c -o $@
 $(O)/i_system.o:

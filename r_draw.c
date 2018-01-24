@@ -90,6 +90,7 @@ int dc_yh;
 fixed_t dc_iscale;
 fixed_t dc_texturemid;
 
+
 /* first pixel in a column (possibly virtual) */
 byte*                   dc_source;
 
@@ -155,7 +156,7 @@ void R_DrawColumn (void)
 
 /* UNUSED. */
 /* Loop unrolled. */
-#if 0
+#if 1
 void R_DrawColumn (void)
 {
 	int count;
@@ -883,3 +884,5 @@ void R_DrawViewBorder (void)
 }
 
 
+static int tranmap=0;
+static int hires=1;
