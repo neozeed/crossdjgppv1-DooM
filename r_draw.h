@@ -47,6 +47,13 @@ extern byte*            dc_source;
 void    R_DrawColumn (void);
 void    R_DrawColumnLow (void);
 
+#ifdef __DJGPP__ /* FS: FIXME: Hacked using O2C */
+void RDrawColumn (void);
+void RDrawSpan (void);
+#define R_DrawColumn RDrawColumn
+#define R_DrawSpan RDrawSpan
+#endif
+
 /* The Spectre/Invisibility effect. */
 void    R_DrawFuzzColumn (void);
 void    R_DrawFuzzColumnLow (void);

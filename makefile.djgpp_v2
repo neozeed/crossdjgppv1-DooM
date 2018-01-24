@@ -93,6 +93,7 @@ SYSOBJ	=	\
 		$(O)/i_video.o		\
 		$(O)/i_sound.o		\
 		$(O)/i_music.o		\
+		$(O)/linear.o		\
 		$(O)/_muldf3.o		\
 		$(O)/fxdfsi.o		\
 		$(O)/fltsidf.o
@@ -274,6 +275,8 @@ $(O)/m_fixed_i386.o:
 #$(O)/dpmi.o:
 #	$(CC) $(CFLAGS) -c go32_dpmi/dpmi.c -o $@
 # djgpp_v2
+$(O)/linear.o:
+	copy linear.o2c obj\linear.o
 $(O)/i_video.o:
 	$(CC) $(CFLAGS) -c djgpp_v2/i_video.c -o $@
 $(O)/i_system.o:

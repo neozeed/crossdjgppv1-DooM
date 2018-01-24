@@ -1,0 +1,51 @@
+SKIPPRIMITIVES	=  0			; set to 1 to skip unwound drawing
+
+
+SCREEN		=	0a0000h
+SCREENWIDTH     =	320
+SCREENHEIGHT	=	200
+PLANEWIDTH	=	80
+PLANESIZE	=	80*200
+
+PEL_WRITE_ADR	=	03c8h
+PEL_DATA	=	03c9h
+
+SC_INDEX	=	03C4h
+SC_MAPMASK	=	2
+
+OP_RET		=	0c3h
+OP_MOVAL	=	08ah
+OP_MOVDEST	=	088h
+
+
+	.DATA
+
+EXTRN	dc_colormap:DWORD
+EXTRN	dc_x:DWORD
+EXTRN	dc_yl:DWORD
+EXTRN	dc_yh:DWORD
+EXTRN	dc_iscale:DWORD
+EXTRN	dc_texturemid:DWORD
+EXTRN	dc_source:DWORD
+
+EXTRN	ylookup:DWORD
+EXTRN	columnofs:DWORD
+
+
+EXTRN	ds_y:DWORD
+EXTRN	ds_x1:DWORD
+EXTRN	ds_x2:DWORD
+EXTRN	ds_colormap:DWORD
+EXTRN	ds_xfrac:DWORD
+EXTRN	ds_yfrac:DWORD
+EXTRN	ds_xstep:DWORD
+EXTRN	ds_ystep:DWORD
+EXTRN	ds_source:DWORD
+
+PUSHR	MACRO
+	pushad
+ENDM
+
+POPR	MACRO
+	popad
+ENDM
