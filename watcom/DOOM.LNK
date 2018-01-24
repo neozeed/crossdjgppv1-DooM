@@ -4,8 +4,8 @@ option stub=wstub
 debug all
 libpath %WATCOM%\lib386
 libpath %WATCOM%\lib386\dos
-lib math387r.lib
-lib CLIB3R.LIB
+lib math387s.lib
+lib CLIB3S.LIB
 format os2 le
 
 name obj\doom

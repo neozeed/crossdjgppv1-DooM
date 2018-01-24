@@ -39,8 +39,10 @@ static const char
 
 #include "doomdef.h"
 
+#include <dos.h>
 #include <i86.h>
-union REGS regs;
+#include <conio.h>
+union REGS vidregs;
 
 #define STATUS_REGISTER_1    0x3da
 #define PEL_WRITE_ADR   0x3c8
@@ -68,8 +70,8 @@ void I_ShutdownGraphics(void)
 	mode = *(byte *)0x449;
 	if(mode == 0x12 || mode == 0x13)
 	{
-		regs.w.ax = 3;
-		int386(0x10, &regs, &regs); // back to text mode
+		vidregs.w.ax = 3;
+		int386(0x10, &vidregs, &vidregs); // back to text mode
 	}
 }
 
@@ -305,8 +307,8 @@ void I_InitGraphics(void)
 	firsttime=0;
 
 	/*enter graphics mode */
-	regs.w.ax = 0x13;
-	int386(0x10, (const union REGS *)&regs, &regs);
+	vidregs.w.ax = 0x13;
+	int386(0x10, (const union REGS *)&vidregs, &vidregs);
 	dascreen = (byte *)0xa0000;
 /*	dascreen=(byte *)malloc(SCREENWIDTH*SCREENHEIGHT);   /*(byte *)(__djgpp_conventional_base+0xa0000);*/
 	screens[0]=(byte *)malloc(SCREENWIDTH*SCREENHEIGHT);

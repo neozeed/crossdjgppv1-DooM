@@ -8,7 +8,8 @@ CC=  wcc386  # gcc or g++
 
 #5r works
 #5s cannot
-CFLAGS=/omaxet /zp1 /5r /ei /j /zq
+#CFLAGS=/omaxet /zp1 /5r /ei /j /zq
+CFLAGS = /omaxet /zp1 /s/3s /ei /j /zq
 #LDFLAGS=-L/usr/X11R6/lib
 #LIBS=-lXext -lX11 -lnsl -lm
 LDFLAGS=
@@ -179,7 +180,7 @@ $(O)\p_telept.obj:
 $(O)\p_tick.obj:
 	$(CC) $(CFLAGS) p_tick.c /fo=$@
 $(O)\p_saveg.obj:
-	$(CC) -I. p_saveg.c /fo=$@
+	$(CC) $(CFLAGS) p_saveg.c /fo=$@
 $(O)\p_user.obj:
 	$(CC) $(CFLAGS) p_user.c /fo=$@
 $(O)\r_bsp.obj:
