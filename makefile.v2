@@ -8,7 +8,7 @@ CC=  gcc  # gcc or g++
 
 #CFLAGS=-g -Wall -DNORMALUNIX -DLINUX # -DUSEASM
 #CFLAGS=-g -m80387 -DALLOCA
-CFLAGS= -I. -O2
+CFLAGS= -I. -O1
 #LDFLAGS=-L/usr/X11R6/lib
 #LIBS=-lXext -lX11 -lnsl -lm
 LDFLAGS=
@@ -35,7 +35,6 @@ OBJS=				\
 		$(O)/m_misc.o			\
 		$(O)/m_argv.o  		\
 		$(O)/m_bbox.o			\
-		$(O)/m_fixed.o		\
 		$(O)/m_swap.o			\
 		$(O)/m_cheat.o		\
 		$(O)/m_random.o		\
@@ -78,6 +77,8 @@ OBJS=				\
 		$(O)/z_zone.o			\
 		$(O)/info.o				\
 		$(O)/sounds.o	\
+		$(O)/m_fixed_i386.o		\
+#		$(O)/m_fixed.o		\
 #		$(O)/strncasecmp.o	\
 #		$(O)/strcasecmp.o	
 #		$(O)/muldi3.o	\
@@ -107,6 +108,8 @@ $(O)/doomstat.o:
 	$(CC) $(CFLAGS) -c doomstat.c -o $@
 $(O)/dstrings.o:
 	$(CC) $(CFLAGS) -c dstrings.c -o $@
+$(O)/i_sound.o:
+	$(CC) $(CFLAGS) -c i_sound.c -o $@
 $(O)/i_net.o:
 	$(CC) $(CFLAGS) -c i_net.c -o $@
 $(O)/tables.o:
@@ -116,7 +119,7 @@ $(O)/f_finale.o:
 $(O)/f_wipe.o:
 	$(CC) $(CFLAGS) -c f_wipe.c -o $@
 $(O)/d_main.o:
-	$(CC) $(CFLAGS) -Inull -c d_main.c -o $@
+	$(CC) $(CFLAGS) -c d_main.c -o $@
 $(O)/d_net.o:
 	$(CC) $(CFLAGS) -c d_net.c -o $@
 $(O)/d_items.o:
@@ -212,7 +215,7 @@ $(O)/hu_stuff.o:
 $(O)/hu_lib.o:
 	$(CC) $(CFLAGS) -c hu_lib.c -o $@
 $(O)/s_sound.o:
-	$(CC) $(CFLAGS) -Inull -c s_sound.c -o $@
+	$(CC) $(CFLAGS) -c s_sound.c -o $@
 $(O)/z_zone.o:
 	$(CC) $(CFLAGS) -c z_zone.c -o $@
 $(O)/info.o:
@@ -233,11 +236,13 @@ $(O)/ashrdi3.o:
 #	$(CC) $(CFLAGS) -c go32/i_video.c -o $@
 #$(O)/i_system.o:
 #	$(CC) $(CFLAGS) -c go32/i_system.c -o $@
+$(O)/m_fixed_i386.o:
+	$(CC) $(CFLAGS) -c m_fixed_i386.s -o $@
 #go32 DPMI
 $(O)/i_video.o:
 	$(CC) $(CFLAGS) -c go32_dpmi/i_video.c -o $@
 $(O)/i_system.o:
-	$(CC) $(CFLAGS) -Inull -c go32_dpmi/i_system.c -o $@
+	$(CC) $(CFLAGS) -c go32_dpmi/i_system.c -o $@
 $(O)/dpmi.o:
 	$(CC) $(CFLAGS) -c go32_dpmi/dpmi.c -o $@
 # NULL
@@ -245,8 +250,6 @@ $(O)/dpmi.o:
 #	$(CC) $(CFLAGS) -c null/i_video.c -o $@
 #$(O)/i_system.o:
 #	$(CC) $(CFLAGS) -c null/i_system.c -o $@
-$(O)/i_sound.o:
-	$(CC) $(CFLAGS) -c null/i_sound.c -o $@
 
 #GCC 1.39
 #$(O)/xmalloc.o:

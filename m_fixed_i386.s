@@ -12,8 +12,8 @@ _FixedMul:
 
 
 	.align 4
-.globl _FixedDiv
-_FixedDiv:
+.globl _FixedDivOLD
+_FixedDivOLD:
 	pushl %ebp
 	movl %esp,%ebp
 	movl 8(%ebp),%eax
