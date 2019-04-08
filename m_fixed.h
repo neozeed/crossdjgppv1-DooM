@@ -39,8 +39,10 @@
 typedef int fixed_t;
 
 fixed_t FixedMul        (fixed_t a, fixed_t b);
-inline static const fixed_t FixedDiv        (fixed_t a, fixed_t b);
 fixed_t FixedDiv2       (fixed_t a, fixed_t b);
+
+#ifdef USE_ASM
+inline static const fixed_t FixedDiv        (fixed_t a, fixed_t b);
 
 /* limits.h */
 #define INT_MAX 2147483647
@@ -56,8 +58,9 @@ inline static const fixed_t FixedDiv(fixed_t a, fixed_t b)
 {
   if (D_abs(a) >> 14 < D_abs(b))
     {
-      fixed_t result;
 /*
+      fixed_t result;
+
       int dummy;
       asm(" idivl %4 ;"
 	  : "=a" (result),
@@ -68,12 +71,16 @@ inline static const fixed_t FixedDiv(fixed_t a, fixed_t b)
 	    "r" (b)
 	  : "%cc"
 	  );
-*/
-	result=FixedDivOLD(a,b);
       return result;
+*/
+	return(FixedDivOLD(a,b));
     }
   return ((a^b)>>31) ^ INT_MAX;
 }
+
+#else
+fixed_t FixedDiv ( fixed_t a, fixed_t b);
+#endif	/*USE_ASM*/
 
 
 #ifdef __WATCOMC__

@@ -575,17 +575,17 @@ void R_DrawSpan (void)
 
 /* UNUSED. */
 /* Loop unrolled by 4. */
-#if 0
+#ifndef USE_ASM
 void R_DrawSpan (void)
 {
-	unsigned position, step;
+	unsigned int position, step;
 
 	byte*       source;
 	byte*       colormap;
 	byte*       dest;
 
 	unsigned count;
-	usingned spot;
+	unsigned spot;
 	unsigned value;
 	unsigned temp;
 	unsigned xtemp;

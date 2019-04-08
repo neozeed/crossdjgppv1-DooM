@@ -4,17 +4,11 @@
 #
 # $Log:$
 #
-CC=  gcc_v127  # gcc or g++
+CC=  gcc
 
-#CFLAGS=-g -Wall -DNORMALUNIX -DLINUX # -DUSEASM
-#CFLAGS=-g -m80387 -DALLOCA
 CFLAGS= -I.
-#LDFLAGS=-L/usr/X11R6/lib
-#LIBS=-lXext -lX11 -lnsl -lm
 LDFLAGS=
 LIBS = -lm
-#djgpp
-#LIBS= -lgcc -lgr -lpc
 
 # subdirectory for objects
 O=obj
@@ -90,15 +84,15 @@ SYSOBJ	=	\
 		$(O)/i_system.o		\
 		$(O)/i_video.o		\
 		$(O)/xmalloc.o	\
-		$(O)/m_fixed_i386.o
+		$(O)/m_fixed.o
 #		$(O)/dpmi.o
 
 all:	 $(O)/doom
 
 
 $(O)/doom:	$(OBJS) $(SYSOBJ) $(O)/i_main.o
-	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) $(SYSOBJ) $(O)/i_main.o -o $(O)/doom $(LIBS)
-	copy /Y $(O)\doom test
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) $(SYSOBJ) $(O)/i_main.o -o $(O)/doom.exe $(LIBS)
+	copy /Y $(O)\doom.exe test
 #	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) $(O)/i_main.o -o $(O)/dosdoom.exe $(LIBS)
 
 $(O)/%.o:	%.c
