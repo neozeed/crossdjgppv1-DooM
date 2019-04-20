@@ -4,21 +4,25 @@
 #
 # $Log:$
 #
+
+
 CC=  gcc_v127  # gcc or g++
 #CC=  gcc_v139
+ASM=1
 
-#CFLAGS=-g -Wall -DNORMALUNIX -DLINUX # -DUSEASM
-#CFLAGS=-g -m80387 -DALLOCA
 CFLAGS= -I. -O
-#LDFLAGS=-L/usr/X11R6/lib
-#LIBS=-lXext -lX11 -lnsl -lm
+ifdef ASM
+        CFLAGS+=-DUSE_ASM=1 -D__DJGPP__=1
+else
+        CFLAGS+=-D__DJGPP__=1
+endif
+
 LDFLAGS=
 LIBS= -lgcc -lgr -lpc
 
 # subdirectory for objects
 O=obj
 
-#		$(O)/m_fixed.o		\
 # not too sophisticated dependency
 OBJS=				\
 		$(O)/doomdef.o		\
@@ -79,8 +83,8 @@ OBJS=				\
 		$(O)/z_zone.o			\
 		$(O)/info.o				\
 		$(O)/sounds.o	\
-		$(O)/div.o	\
-		$(O)/m_fixed_i386.o
+		$(O)/div.o
+#		$(O)/m_fixed_i386.o
 #		$(O)/m_fixed.o
 #		$(O)/strncasecmp.o	\
 #		$(O)/strcasecmp.o	
@@ -93,14 +97,22 @@ SYSOBJ	=	\
 		$(O)/i_video.o		\
 		$(O)/dpmi.o
 
+ifdef ASM
+ASMOBJ =	$(O)/m_fixed_i386.o	\
+		$(O)/r_drawspan.o
+else
+ASMOBJ =	$(O)/m_fixed.o
+endif
+
+
 all:	 $(O)/doom
 
 clean:
 	del $(O)\*.o $(O)\doom
 
 
-$(O)/doom:	$(OBJS) $(SYSOBJ) $(O)/i_main.o
-	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) $(SYSOBJ) $(O)/i_main.o -o $(O)/doom $(LIBS)
+$(O)/doom:	$(OBJS) $(ASMOBJ) $(SYSOBJ) $(O)/i_main.o
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) $(ASMOBJ) $(SYSOBJ) $(O)/i_main.o -o $(O)/doom $(LIBS)
 	copy /Y $(O)\doom test
 #	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) $(SYSOBJ) $(O)/i_main.o -o $(O)/doom $(LIBS)
 #	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) $(O)/i_main.o -o $(O)/dosdoom.exe $(LIBS)
@@ -187,7 +199,7 @@ $(O)/p_telept.o:
 $(O)/p_tick.o:
 	$(CC) $(CFLAGS) -c p_tick.c -o $@
 $(O)/p_saveg.o:
-	$(CC) -I. -c p_saveg.c -o $@
+	$(CC) -O -I. -c p_saveg.c -o $@
 $(O)/p_user.o:
 	$(CC) $(CFLAGS) -c p_user.c -o $@
 $(O)/r_bsp.o:
@@ -196,6 +208,8 @@ $(O)/r_data.o:
 	$(CC) $(CFLAGS) -c r_data.c -o $@
 $(O)/r_draw.o:
 	$(CC) $(CFLAGS) -c r_draw.c -o $@
+$(O)/r_drawspan.o:
+	$(CC) $(CFLAGS) -c r_drawspan.s -o $@
 $(O)/r_main.o:
 	$(CC) $(CFLAGS) -c r_main.c -o $@
 $(O)/r_plane.o:
