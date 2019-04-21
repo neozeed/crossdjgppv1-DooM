@@ -84,6 +84,23 @@ fixed_t FixedDiv ( fixed_t a, fixed_t b);
 
 
 #ifdef __WATCOMC__
+#pragma aux FixedMul =		\
+	"imul ebx",		\
+	"shrd eax,edx,16"	\
+	parm	[eax] [ebx]	\
+	value	[eax]		\
+	modify exact [eax edx]
+/* limits.h */
+#define INT_MAX 2147483647
+ 
+#pragma aux FixedDiv2 =	\
+	"cdq",			\
+	"shld edx,eax,16",	\
+	"sal eax,16",		\
+	"idiv ebx"		\
+	parm	[eax] [ebx]	\
+	value	[eax]		\
+	modify exact [eax edx]
 #endif
 
 
