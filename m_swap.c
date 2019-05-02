@@ -38,18 +38,24 @@ static const char
 /* Swap 16bit, that is, MSB and LSB byte. */
 short SwapSHORT(short x)
 {
+return (((x>>16)&0xFF)<<8) | (((x>>24)&0xFF)<<0);
+#if 0
 	/* No masking with 0xFF should be necessary. */
 	return (x>>8) | (x<<8);
+#endif
 }
 
 /* Swapping 32bit. */
 long SwapLONG( long x)
 {
+return ((x&0xFF)<<24) | (((x>>8)&0xFF)<<16) |   (((x>>16)&0xFF)<<8) | (((x>>24)&0xFF)<<0);
+#if 0
 	return
 	        (x>>24)
 	        | ((x>>8) & 0xff00)
 	        | ((x<<8) & 0xff0000)
 	        | (x<<24);
+#endif
 }
 
 
