@@ -207,9 +207,17 @@ mline_t triangle_guy[] = {
 
 #define R (FRACUNIT)
 mline_t thintriangle_guy[] = {
+#if 0
+/*	GCC 2.5.8 crashes on this block, the numbers are out of range?
+	so I just copied the triangle_guy from above	*/
 	{ { -.5*R, -.7*R }, { R, 0 } },
 	{ { R, 0 }, { -.5*R, .7*R } },
 	{ { -.5*R, .7*R }, { -.5*R, -.7*R } }
+#else
+	{ { -.867*R, -.5*R }, { .867*R, -.5*R } },
+	{ { .867*R, -.5*R }, { 0, R } },
+	{ { 0, R }, { -.867*R, -.5*R } }
+#endif
 };
 #undef R
 #define NUMTHINTRIANGLEGUYLINES (sizeof(thintriangle_guy)/sizeof(mline_t))

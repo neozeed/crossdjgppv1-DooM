@@ -100,6 +100,7 @@ int dccount;
 /* FS: Use linear.asm */
 #ifndef __WATCOMC__
 #ifndef __DJGPP__
+#define SINGLE_R_DrawColumn
 /* */
 /* A column is a vertical slice/span from a wall texture that, */
 /*  given the DOOM style restrictions on the view orientation, */
@@ -156,7 +157,7 @@ void R_DrawColumn (void)
 
 /* UNUSED. */
 /* Loop unrolled. */
-#if 1
+#ifndef SINGLE_R_DrawColumn
 void R_DrawColumn (void)
 {
 	int count;
@@ -519,7 +520,7 @@ byte*                   ds_source;
 /* just for profiling */
 int dscount;
 
-
+/* should be #ifndef USE_ASM ? */
 /* FS: Use linear.asm	*/
 #ifndef __WATCOMC__
 #ifndef __DJGPP__
@@ -575,7 +576,7 @@ void R_DrawSpan (void)
 
 /* UNUSED. */
 /* Loop unrolled by 4. */
-#ifndef USE_ASM
+#if 0
 void R_DrawSpan (void)
 {
 	unsigned int position, step;
