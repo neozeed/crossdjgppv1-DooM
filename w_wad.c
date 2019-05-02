@@ -40,7 +40,14 @@ static const char
 #else
 #include <malloc.h>
 #endif
-/*#define O_BINARY		0 */
+
+#ifndef O_BINARY
+#ifdef atarist
+/*
+#define O_BINARY		0x0004          /* file is in "binary" mode from stdio.h*/
+#endif
+#define O_BINARY		0
+#endif
 
 
 #include "doomtype.h"
