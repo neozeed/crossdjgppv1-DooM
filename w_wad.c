@@ -55,7 +55,7 @@ static const char
 
 
 
-#define HUMAN68K 1
+
 
 
 /* */
@@ -156,14 +156,12 @@ void W_AddFile (char *filename)
 	wadinfo_t header;
 	lumpinfo_t*         lump_p;
 	unsigned i;
-/*	int handle;	*/
-	FILE *handle;
+	int handle;
 	int length;
 	int startlump;
 	filelump_t*         fileinfo;
 	filelump_t singleinfo;
-/*	int storehandle;	*/
-	FILE *storehandle;
+	int storehandle;
 
 printf("W_AddFile %s\n",filename);
 	/* open the file and add to directory */
@@ -176,9 +174,7 @@ printf("W_AddFile %s\n",filename);
 		reloadlump = numlumps;
 	}
 
-/*	if ( (handle = open (filename,O_RDONLY | O_BINARY)) == -1)	*/
-	handle = fopen (filename,"rb");
-	if ( handle == NULL )
+	if ( (handle = open (filename,O_RDONLY | O_BINARY)) == -1)
 	{
 		printf (" couldn't open %s\n",filename);
 		return;
@@ -199,8 +195,7 @@ printf("W_AddFile %s\n",filename);
 	else
 	{
 		/* WAD file */
-/*		read (handle, &header, sizeof(header));	*/
-		fread(&header,1,sizeof(header),handle);
+		read (handle, &header, sizeof(header));
 		if (strncmp(header.identification,"IWAD",4))
 		{
 			/* Homebrew levels? */
@@ -215,24 +210,16 @@ printf("W_AddFile %s\n",filename);
 		header.numlumps = LONG(header.numlumps);
 		header.infotableofs = LONG(header.infotableofs);
 		length = header.numlumps*sizeof(filelump_t);
-		printf(" fileinfo alloca %d\n",length);
 		fileinfo = alloca (length);
-/*		lseek (handle, header.infotableofs, SEEK_SET);	*/
-		fseek(handle, header.infotableofs, SEEK_SET);
-/*		read (handle, fileinfo, length);	*/
-		fread(fileinfo,1,length,handle);
+		lseek (handle, header.infotableofs, SEEK_SET);
+		read (handle, fileinfo, length);
 		numlumps += header.numlumps;
 	}
-	printf(" header.numlumps is %d\n",header.numlumps);
-	printf(" header.infotableofs is %d\n",header.infotableofs);
-	printf(" length is %d\n",length);
-	printf(" numlumps %d sizeof lumpinfo_t %d\n",numlumps,sizeof(lumpinfo_t));
 
 
 	/* Fill in lumpinfo */
-printf(" trying to realloc %d bytes\n",numlumps*sizeof(lumpinfo_t));
 	lumpinfo = realloc (lumpinfo, numlumps*sizeof(lumpinfo_t));
-printf(" lumpinfo is %d\n",lumpinfo);
+
 	if (!lumpinfo)
 		I_Error ("Couldn't realloc lumpinfo");
 
@@ -246,14 +233,10 @@ printf(" lumpinfo is %d\n",lumpinfo);
 		lump_p->position = LONG(fileinfo->filepos);
 		lump_p->size = LONG(fileinfo->size);
 		strncpy (lump_p->name, fileinfo->name, 8);
-/*		printf(" lump_p->name %s lump_p->handle %d lump_p->position %d lump_p->size %d\n",lump_p->name,lump_p->handle,lump_p->position,lump_p->size);	*/
 	}
 
 	if (reloadname)
-		fclose (handle);
-/*		close (handle);	*/
-
-printf("W_AddFile %s done.\n",filename);
+		close (handle);
 }
 
 
@@ -270,31 +253,23 @@ void W_Reload (void)
 	int lumpcount;
 	lumpinfo_t*         lump_p;
 	unsigned i;
-/*	int handle;	*/
-	FILE *handle;
+	int handle;
 	int length;
 	filelump_t*         fileinfo;
-
-printf("W_Reload!\n");
 
 	if (!reloadname)
 		return;
 
-/*	if ( (handle = open (reloadname,O_RDONLY | O_BINARY)) == -1)	*/
-	handle = fopen(reloadname,"rb");
-	if ( handle == NULL)
+	if ( (handle = open (reloadname,O_RDONLY | O_BINARY)) == -1)
 		I_Error ("W_Reload: couldn't open %s",reloadname);
 
-/*	read (handle, &header, sizeof(header));	*/
-	fread(&header,1,sizeof(header),handle);
+	read (handle, &header, sizeof(header));
 	lumpcount = LONG(header.numlumps);
 	header.infotableofs = LONG(header.infotableofs);
 	length = lumpcount*sizeof(filelump_t);
 	fileinfo = alloca (length);
-/*	lseek (handle, header.infotableofs, SEEK_SET);	*/
-	fseek (handle, header.infotableofs, SEEK_SET);
-/*	read (handle, fileinfo, length);	*/
-	fread(fileinfo,1,length,handle);
+	lseek (handle, header.infotableofs, SEEK_SET);
+	read (handle, fileinfo, length);
 
 	/* Fill in lumpinfo */
 	lump_p = &lumpinfo[reloadlump];
@@ -309,8 +284,8 @@ printf("W_Reload!\n");
 		lump_p->position = LONG(fileinfo->filepos);
 		lump_p->size = LONG(fileinfo->size);
 	}
-	fclose (handle);
-/*	close (handle);	*/
+
+	close (handle);
 }
 
 
@@ -461,58 +436,7 @@ int W_LumpLength (int lump)
 }
 
 
-#if 1
-/* */
-/* W_ReadLump */
-/* Loads the lump into the given buffer, */
-/*  which must be >= W_LumpLength(). */
-/* */
-void
-W_ReadLump
-        ( int lump,
-        void*         dest )
-{
-	int c;
-	lumpinfo_t* l;
-/*	int handle;	*/
-	FILE* handle;
 
-	if (lump >= numlumps)
-		I_Error ("W_ReadLump: %i >= numlumps",lump);
-
-	l = lumpinfo+lump;
-
-	/* ??? I_BeginRead (); */
-
-	if (l->handle == -1)
-	{
-		/* reloadable file, so use open / read / close */
-/*		if ( (handle = open (reloadname,O_RDONLY | O_BINARY)) == -1)	*/
-		handle = fopen (reloadname,"rb");
-		if ( handle == -1)
-			I_Error ("W_ReadLump: couldn't open %s",reloadname);
-	}
-	else
-		handle = l->handle;
-
-/*	lseek (handle, l->position, SEEK_SET);	*/
-	fseek (handle, l->position, SEEK_SET);
-/*	printf("W_ReadLump: handle %d l->position %d\n",handle,l->position);
-//	printf(" ftell %d\n",ftell(handle));	*/
-	c = fread(dest,l->size,1,handle);
-	c = c * l->size;
-
-	if (c < l->size)
-		I_Error ("W_ReadLump: only read %i of %i on lump %i",
-		         c,l->size,lump);
-
-	if (l->handle == -1)
-		fclose (handle);
-/*		close (handle);	*/
-
-	/* ??? I_EndRead (); */
-}
-#else
 /* */
 /* W_ReadLump */
 /* Loads the lump into the given buffer, */
@@ -545,7 +469,6 @@ W_ReadLump
 
 	lseek (handle, l->position, SEEK_SET);
 	c = read (handle, dest, l->size);
-	printf("W_ReadLump: handle %d l->position %d bytes %d\n",handle,l->position,c);
 
 	if (c < l->size)
 		I_Error ("W_ReadLump: only read %i of %i on lump %i",
@@ -556,7 +479,6 @@ W_ReadLump
 
 	/* ??? I_EndRead (); */
 }
-#endif
 
 
 
