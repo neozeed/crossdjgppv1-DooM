@@ -39,7 +39,11 @@ typedef struct
 	int numlumps;
 	int infotableofs;
 
-} wadinfo_t __attribute__ ((packed));
+} wadinfo_t 
+#if __GCC_VERSION__ > 20000
+__attribute__ ((packed))
+#endif
+;
 
 
 typedef struct
@@ -48,7 +52,11 @@ typedef struct
 	int size;
 	char name[8];
 
-} filelump_t __attribute__ ((packed));
+} filelump_t
+#if __GCC_VERSION__ > 20000
+__attribute__ ((packed))
+#endif
+;
 
 /* */
 /* WADFILE I/O related stuff. */
@@ -59,7 +67,11 @@ typedef struct
 	int handle;
 	int position;
 	int size;
-} lumpinfo_t __attribute__ ((packed));
+} lumpinfo_t
+#if __GCC_VERSION__ > 20000
+__attribute__ ((packed))
+#endif
+;
 
 
 extern void**          lumpcache;

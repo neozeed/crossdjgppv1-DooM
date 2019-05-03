@@ -98,7 +98,7 @@ byte*                   dc_source;
 int dccount;
 
 /* FS: Use linear.asm */
-#ifndef __WATCOMC__
+/* #ifndef __WATCOMC__ */
 #ifndef __DJGPP__
 #define SINGLE_R_DrawColumn
 /* */
@@ -152,7 +152,7 @@ void R_DrawColumn (void)
 
 	} while (count--);
 }
-#endif
+/* #endif */
 #endif
 
 /* UNUSED. */
@@ -522,7 +522,7 @@ int dscount;
 
 /* should be #ifndef USE_ASM ? */
 /* FS: Use linear.asm	*/
-#ifndef __WATCOMC__
+/* #ifndef __WATCOMC__ */
 #ifndef __DJGPP__
 /* */
 /* Draws the actual span. */
@@ -570,7 +570,7 @@ void R_DrawSpan (void)
 
 	} while (count--);
 }
-#endif
+/* #endif */
 #endif
 
 

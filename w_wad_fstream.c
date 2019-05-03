@@ -40,7 +40,6 @@ static const char
 #else
 #include <malloc.h>
 #endif
-/*#define O_BINARY		0 */
 
 
 #include "doomtype.h"
@@ -50,9 +49,9 @@ static const char
 
 #ifdef __GNUG__
 #pragma implementation "w_wad.h"
-#endif
+#else
 #include "w_wad.h"
-
+#endif
 
 
 
@@ -76,13 +75,14 @@ void**                  lumpcache;
     while (*s) { *s = toupper(*s); s++; }
    }*/
 
-int DOOMfilelength (int handle)
+int DOOMfilelength (FILE *handle)
 {
-#ifdef HUMAN68K
+#if 1
 	int length;
-	length=lseek(handle,0,SEEK_END);
+	fseek(handle,0,SEEK_SET);
+	length=fseek(handle,0,SEEK_END);
 	printf("DOOMfilelength\t:%d bytes\n",length);
-	lseek(handle,0,SEEK_SET);
+	fseek(handle,0,SEEK_SET);
 	return length;
 #else
 	struct stat fileinfo;
@@ -246,8 +246,10 @@ printf(" lumpinfo is %d\n",lumpinfo);
 		lump_p->position = LONG(fileinfo->filepos);
 		lump_p->size = LONG(fileinfo->size);
 		strncpy (lump_p->name, fileinfo->name, 8);
-/*		printf(" lump_p->name %s lump_p->handle %d lump_p->position %d lump_p->size %d\n",lump_p->name,lump_p->handle,lump_p->position,lump_p->size);	*/
+	/*	printf(" lump_p->name %s lump_p->handle %d lump_p->position %d lump_p->size %d\n",lump_p->name,lump_p->handle,lump_p->position,lump_p->size);	*/
+		printf(" lump_p->name %s\t\t\r",lump_p->name);
 	}
+	printf("\n");
 
 	if (reloadname)
 		fclose (handle);
