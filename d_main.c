@@ -577,6 +577,8 @@ void IdentifyVersion (void)
 	char*       plutoniawad;
 	char*       tntwad;
 
+	char*       chexwad;
+
 	char *home;
 	char *doomwaddir;
 	doomwaddir = getenv("DOOMWADDIR");
@@ -618,6 +620,13 @@ void IdentifyVersion (void)
 	doom2fwad = malloc(strlen(doomwaddir)+1+10+1);
 	/*sprintf(doom2fwad, "%s/doom2f.wad", doomwaddir);*/
 	sprintf(doom2fwad, "doom2f.wad");
+
+	/* Chex Quest */
+	chexwad = malloc(strlen(doomwaddir)+1+10+1);
+	sprintf(chexwad, "chex.wad");
+
+
+
 
 /*    home = getenv("HOME"); */
 /*    if (!home) */
@@ -717,6 +726,13 @@ void IdentifyVersion (void)
 	{
 		gamemode = shareware;
 		D_AddFile (doom1wad);
+		return;
+	}
+
+	if ( !access (chexwad,R_OK) )
+	{
+		gamemode = retail;
+		D_AddFile (chexwad);
 		return;
 	}
 
