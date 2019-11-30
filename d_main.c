@@ -477,7 +477,11 @@ void D_DoAdvanceDemo (void)
 		else
 			pagetic = 170;
 		gamestate = GS_DEMOSCREEN;
-		pagename = "TITLEPIC";
+	/* the Doom 3 BFG EDITION version of Doom 2 is lacking the titlepic */
+		if(W_CheckNumForName("TITLEPIC")>0)
+			pagename = "TITLEPIC";
+		else
+			pagename = "DMENUPIC";
 		if ( gamemode == commercial )
 			S_StartMusic(mus_dm2ttl);
 		else
