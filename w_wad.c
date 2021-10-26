@@ -39,6 +39,7 @@ static const char
 #include <alloca.h>
 #else
 #include <malloc.h>
+#define alloca malloc
 #endif
 
 #ifndef O_BINARY

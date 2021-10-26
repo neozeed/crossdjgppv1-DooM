@@ -44,7 +44,10 @@ static const char
 #include "r_sky.h"
 
 #ifdef ALLOCA
-#include  <alloca.h>
+#include <alloca.h>
+#else
+#include <malloc.h>
+#define alloca malloc
 #endif
 
 
